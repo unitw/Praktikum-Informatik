@@ -34,8 +34,7 @@ public class Zeichenpanel extends JPanel {
         return this.getHeight();
     }
     
-      public void 
-    
+     //asdf
     
     
 }
