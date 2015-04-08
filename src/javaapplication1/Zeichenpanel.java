@@ -16,24 +16,24 @@ public class Zeichenpanel extends JPanel {
     public Color color;
     
     
-     public void setWidth(int width){
-        this.setSize(width, this.getHeight());
-    }
-    public void setHeight(int Height){
-        this.setSize(this.getWidth(), Height);
-    }
-    
-    
-    
-      public int getWidth(){
-      return  this.getWidth();
-    }
-    
-      
-      public int getHeight(){
-        return this.getHeight();
-    }
-    
+//     public void setWidth(int width){
+//        this.setSize(width, this.getHeight());
+//    }
+//    public void setHeight(int Height){
+//        this.setSize(this.getWidth(), Height);
+//    }
+//    
+//    
+//    
+//      public int getWidth(){
+//      return  this.getWidth();
+//    }
+//    
+//      
+//      public int getHeight(){
+//        return this.getHeight();
+//    }
+//    
      //asdf
     
     

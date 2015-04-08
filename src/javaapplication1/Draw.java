@@ -26,7 +26,7 @@ import javax.swing.JPanel;
  *
  * @author 3flim
  */
-public class drawSwing {
+public class Draw {
 
     public static void main(String[] args) {
 
