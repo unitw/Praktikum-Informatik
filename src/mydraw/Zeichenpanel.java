@@ -24,7 +24,7 @@ public class Zeichenpanel extends JPanel {
     public void saveImage(String name, String type) {
         BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g2 = image.createGraphics();
-        paint(g2);
+        this.paint(g2);
         try {
             ImageIO.write(image, type, new File(name + "." + type));
         } catch (Exception e) {

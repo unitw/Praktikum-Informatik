@@ -202,8 +202,8 @@ public class Draw {
 
     public static void autodraw() throws ColorException {
 
-//        setBgColor("red");           /*******FEHLER NOCHMAL CHECKEN
-//        setFGColor("green");         /*******NOCHMAL CHECKEN
+//        setBgColor("red");           /*******  FEHLER NOCHMAL CHECKEN
+//        setFGColor("green");         /*******  NOCHMAL CHECKEN
         List<Point> points = new ArrayList<>();
         points.add(new Point(0, 0));
         points.add(new Point(100, 100));
@@ -216,9 +216,9 @@ public class Draw {
     }
 
     public static void writeImage(Image img, String Filename) throws IOException {
-//        MyBMPFile bmpfile = new MyBMPFile();
-//        img = getDrawing();
-//        bmpfile.write(Filename, gui.zeichenpanel.saveImage());
+        MyBMPFile bmpfile = new MyBMPFile();
+        img = getDrawing();
+        bmpfile.write(Filename, img);
       gui.zeichenpanel.saveImage("asdf", "png");
     }
 }
