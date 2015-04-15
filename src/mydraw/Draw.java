@@ -9,7 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -19,14 +18,14 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -185,31 +184,13 @@ public class Draw {
         g.drawPolyline(x, y, points.size());
     }
 
-    private static BufferedImage createImage() {
-
-        BufferedImage img = new BufferedImage(gui.zeichenpanel.getWidth(), gui.zeichenpanel.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics g2 = img.createGraphics();
-        g2 = gui.zeichenpanel.getGraphics();
-
-//        try {
-//            ImageIO.write(img, "jpg", new File("test.jpg"));
-//        } catch (IOException ex) {
-//            Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        return img;
-
-    }
-
     public static Image getDrawing() {
         BufferedImage awtImage = new BufferedImage(gui.zeichenpanel.getWidth(), gui.zeichenpanel.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = awtImage.createGraphics();
         gui.zeichenpanel.paint(g);
-//        try {
-//            ImageIO.write(awtImage, "jpg", new File("test.jpg"));
-//        } catch (IOException ex) {
-//            Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
+        g.dispose();
+        // Scale dimension size of BufferedImage and return it
+
         return awtImage;
     }
 
@@ -235,10 +216,10 @@ public class Draw {
     }
 
     public static void writeImage(Image img, String Filename) throws IOException {
-        MyBMPFile bmpfile = new MyBMPFile();
-        img = createImage();
-        bmpfile.write(Filename, img);
-
+//        MyBMPFile bmpfile = new MyBMPFile();
+//        img = getDrawing();
+//        bmpfile.write(Filename, gui.zeichenpanel.saveImage());
+      gui.zeichenpanel.saveImage("asdf", "png");
     }
 }
 

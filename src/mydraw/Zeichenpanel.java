@@ -6,6 +6,11 @@
 package mydraw;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 /**
@@ -15,26 +20,21 @@ import javax.swing.JPanel;
 public class Zeichenpanel extends JPanel {
     public Color color= Color.black;
     
-    
-//     public void setWidth(int width){
-//        this.setSize(width, this.getHeight());
-//    }
-//    public void setHeight(int Height){
-//        this.setSize(this.getWidth(), Height);
-//    }
-//    
-//    
-//    
-//      public int getWidth(){
-//      return  this.getWidth();
-//    }
-//    
-//      
-//      public int getHeight(){
-//        return this.getHeight();
-//    }
-//    
-     //asdf
-    
+    public void saveImage(String name,String type) {
+		BufferedImage image = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2 = image.createGraphics();
+		paint(g2);
+		try{
+			ImageIO.write(image, type, new File(name+"."+type));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+ 
+ 
+    @Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
     
 }
