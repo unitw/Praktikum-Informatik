@@ -18,23 +18,23 @@ import javax.swing.JPanel;
  * @author 3flim
  */
 public class Zeichenpanel extends JPanel {
-    public Color color= Color.black;
-    
-    public void saveImage(String name,String type) {
-		BufferedImage image = new BufferedImage(getWidth(),getHeight(), BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2 = image.createGraphics();
-		paint(g2);
-		try{
-			ImageIO.write(image, type, new File(name+"."+type));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
- 
- 
+
+    public Color color = Color.black;
+
+    public void saveImage(String name, String type) {
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = image.createGraphics();
+        paint(g2);
+        try {
+            ImageIO.write(image, type, new File(name + "." + type));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-	}
-    
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+    }
+
 }

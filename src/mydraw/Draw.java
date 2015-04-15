@@ -45,7 +45,7 @@ public class Draw {
 
         JButton automal = new JButton("Auto malen");
         JButton save = new JButton("Save");
-        save.setPreferredSize(new Dimension(50, 25));
+        save.setPreferredSize(new Dimension(100, 25));
         save.addActionListener(new ActionListener() {
 
             @Override
@@ -60,7 +60,7 @@ public class Draw {
                 }
             }
         });
-        automal.setPreferredSize(new Dimension(50, 25));
+        automal.setPreferredSize(new Dimension(100, 25));
         automal.addActionListener(new ActionListener() {
 
             @Override
@@ -202,8 +202,8 @@ public class Draw {
 
     public static void autodraw() throws ColorException {
 
-        //setBgColor("red");
-        // setFGColor("green");
+//        setBgColor("red");           /*******FEHLER NOCHMAL CHECKEN
+//        setFGColor("green");         /*******NOCHMAL CHECKEN
         List<Point> points = new ArrayList<>();
         points.add(new Point(0, 0));
         points.add(new Point(100, 100));
