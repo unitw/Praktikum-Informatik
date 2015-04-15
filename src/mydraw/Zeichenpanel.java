@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * @author 3flim
  */
 public class Zeichenpanel extends JPanel {
-    public Color color;
+    public Color color= Color.black;
     
     
 //     public void setWidth(int width){

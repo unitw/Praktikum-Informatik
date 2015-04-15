@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -19,10 +20,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -41,6 +45,22 @@ public class Draw {
     public static void main(String[] args) {
 
         JButton automal = new JButton("Auto malen");
+        JButton save = new JButton("Save");
+        save.setPreferredSize(new Dimension(50, 25));
+        save.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                Image img = null;
+                String filename = new String("ZeichenPanel");
+
+                try {
+                    Draw.writeImage(img, filename);
+                } catch (IOException ex) {
+                    Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
         automal.setPreferredSize(new Dimension(50, 25));
         automal.addActionListener(new ActionListener() {
 
@@ -65,6 +85,7 @@ public class Draw {
         gui = new DrawSwingGUI();
         gui.setSize(500, 400);
         gui.auswahlpanel.add(automal);
+        gui.auswahlpanel.add(save);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setVisible(true);
     }
@@ -164,10 +185,31 @@ public class Draw {
         g.drawPolyline(x, y, points.size());
     }
 
+    private static BufferedImage createImage() {
+
+        BufferedImage img = new BufferedImage(gui.zeichenpanel.getWidth(), gui.zeichenpanel.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = img.createGraphics();
+        g2 = gui.zeichenpanel.getGraphics();
+
+//        try {
+//            ImageIO.write(img, "jpg", new File("test.jpg"));
+//        } catch (IOException ex) {
+//            Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        return img;
+
+    }
+
     public static Image getDrawing() {
         BufferedImage awtImage = new BufferedImage(gui.zeichenpanel.getWidth(), gui.zeichenpanel.getHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics g = awtImage.createGraphics();
-        gui.getZeichenpanel().print(g);
+        gui.zeichenpanel.paint(g);
+//        try {
+//            ImageIO.write(awtImage, "jpg", new File("test.jpg"));
+//        } catch (IOException ex) {
+//            Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        
         return awtImage;
     }
 
@@ -180,8 +222,7 @@ public class Draw {
     public static void autodraw() throws ColorException {
 
         //setBgColor("red");
-       // setFGColor("green");
-
+        // setFGColor("green");
         List<Point> points = new ArrayList<>();
         points.add(new Point(0, 0));
         points.add(new Point(100, 100));
@@ -193,6 +234,12 @@ public class Draw {
 
     }
 
+    public static void writeImage(Image img, String Filename) throws IOException {
+        MyBMPFile bmpfile = new MyBMPFile();
+        img = createImage();
+        bmpfile.write(Filename, img);
+
+    }
 }
 
 class DrawSwingGUI extends JFrame {
@@ -269,7 +316,7 @@ class DrawSwingGUI extends JFrame {
 
     public void initGUI() {
         this.setLayout(new BorderLayout());
-
+        color = Color.BLACK;
         this.setPreferredSize(new Dimension(500, 400));
         zeichenpanel.setPreferredSize(new Dimension(400, 300));
         color = Color.black;
@@ -466,13 +513,13 @@ class DrawSwingGUI extends JFrame {
             // user selected new color => store new color in DrawGUI
             public void itemStateChanged(ItemEvent e) {
                 if (e.getItem().equals("Black")) {
-                    color = Color.black;
+                    zeichenpanel.color = Color.black;
                 } else if (e.getItem().equals("Green")) {
-                    color = Color.green;
+                    zeichenpanel.color = Color.green;
                 } else if (e.getItem().equals("Red")) {
-                    color = Color.red;
+                    zeichenpanel.color = Color.red;
                 } else if (e.getItem().equals("Blue")) {
-                    color = Color.blue;
+                    zeichenpanel.color = Color.blue;
                 }
             }
         }
