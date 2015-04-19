@@ -50,7 +50,7 @@ public class Draw {
 
             @Override
             public void actionPerformed(ActionEvent ae) {
-                BufferedImage img = null;
+
                 String filename = new String("ZeichenPanel1");
 
                 try {
@@ -86,6 +86,7 @@ public class Draw {
         gui.setLocationRelativeTo(null);
         gui.auswahlpanel.add(automal);
         gui.auswahlpanel.add(save);
+
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setVisible(true);
     }
@@ -369,7 +370,7 @@ class DrawSwingGUI extends JFrame {
                     int x = e.getX(), y = e.getY();
                     g.setColor(gui.color);
                     g1.setColor(gui.color);
-                    
+
                     g.setPaintMode();
                     g1.setPaintMode();
 

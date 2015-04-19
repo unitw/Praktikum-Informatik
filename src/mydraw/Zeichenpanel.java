@@ -32,13 +32,14 @@ public class Zeichenpanel extends JPanel {
         this.w = w;
         this.h = h;
         this.setPreferredSize(new Dimension(w, h));
-        image = new BufferedImage(this.getPreferredSize().width, this.getPreferredSize().height, BufferedImage.TYPE_INT_ARGB);;
+         image = new BufferedImage(584, 300, BufferedImage.TYPE_INT_ARGB);;
         Graphics gbg = image.createGraphics();
         gbg.setColor(color.white);
-        gbg.fillRect(0, 0, this.getPreferredSize().width, this.getPreferredSize().height);
+        gbg.fillRect(0, 0, 584, 300);
 
     }
 
+    
     public BufferedImage getImage() {
 
         return image;
@@ -51,7 +52,7 @@ public class Zeichenpanel extends JPanel {
     public void saveImage(String name, String type) {
 
         Graphics g = this.getGraphics();
-        g.drawImage(image, 0, 0, null);
+      //  g.drawImage(image, 0, 0, null);
 
         try {
             ImageIO.write(image, type, new File(name + "." + type));
