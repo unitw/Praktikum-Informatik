@@ -50,11 +50,11 @@ public class Draw {
 
             @Override
             public void actionPerformed(ActionEvent ae) {
-                Image img = null;
-                String filename = new String("ZeichenPanel");
+                BufferedImage img = null;
+                String filename = new String("ZeichenPanel1");
 
                 try {
-                    Draw.writeImage(img, filename);
+                    Draw.writeImage(filename);
                 } catch (IOException ex) {
                     Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -82,7 +82,8 @@ public class Draw {
             }
         });
         gui = new DrawSwingGUI();
-        gui.setSize(500, 400);
+        gui.setSize(600, 400);
+        gui.setLocationRelativeTo(null);
         gui.auswahlpanel.add(automal);
         gui.auswahlpanel.add(save);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -161,17 +162,21 @@ public class Draw {
     public static void drawRectangle(Point upper_left, Point lower_right) {
 
         Graphics g = gui.getZeichenpanel().getGraphics();
+        Graphics g1 = gui.zeichenpanel.getImage().getGraphics();
         g.drawRect(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
-
+        g1.drawRect(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
     }
 
     public static void drawOval(Point upper_left, Point lower_right) {
         Graphics g = gui.getZeichenpanel().getGraphics();
+        Graphics g1 = gui.zeichenpanel.getImage().getGraphics();
         g.drawOval(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
+        g1.drawOval(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
     }
 
     public static void drawPolyLine(List<Point> points) {
         Graphics g = gui.getZeichenpanel().getGraphics();
+        Graphics g1 = gui.zeichenpanel.getImage().getGraphics();
         int[] x = new int[points.size()];
         int[] y = new int[points.size()];
 
@@ -182,15 +187,11 @@ public class Draw {
 
         }
         g.drawPolyline(x, y, points.size());
+        g1.drawPolyline(x, y, points.size());
     }
 
-    public static Image getDrawing() {
-        BufferedImage awtImage = new BufferedImage(gui.zeichenpanel.getWidth(), gui.zeichenpanel.getHeight(), BufferedImage.TYPE_INT_RGB);
-        Graphics g = awtImage.createGraphics();
-        gui.zeichenpanel.paint(g);
-        g.dispose();
-        // Scale dimension size of BufferedImage and return it
-
+    public static BufferedImage getDrawing() {
+        BufferedImage awtImage = gui.zeichenpanel.getImage();
         return awtImage;
     }
 
@@ -215,11 +216,11 @@ public class Draw {
 
     }
 
-    public static void writeImage(Image img, String Filename) throws IOException {
+    public static void writeImage(String Filename) throws IOException {
         MyBMPFile bmpfile = new MyBMPFile();
-        img = getDrawing();
-        bmpfile.write(Filename, img);
-      gui.zeichenpanel.saveImage("asdf", "png");
+
+        gui.zeichenpanel.saveImage(Filename, "png");
+
     }
 }
 
@@ -233,7 +234,7 @@ class DrawSwingGUI extends JFrame {
     JButton buttonquit = new JButton("Quit");
     JButton buttonclear = new JButton("Clear");
     JPanel auswahlpanel = new JPanel();
-    Zeichenpanel zeichenpanel = new Zeichenpanel();
+    Zeichenpanel zeichenpanel = new Zeichenpanel(400, 300);
 
     public String getColor() {
         String fgcolor = color.toString();
@@ -299,7 +300,6 @@ class DrawSwingGUI extends JFrame {
         this.setLayout(new BorderLayout());
         color = Color.BLACK;
         this.setPreferredSize(new Dimension(500, 400));
-        zeichenpanel.setPreferredSize(new Dimension(400, 300));
         color = Color.black;
         auswahlpanel.add(labelshape);
         auswahlpanel.add(shape_chooser);
@@ -364,10 +364,18 @@ class DrawSwingGUI extends JFrame {
 
                 public void mouseDragged(MouseEvent e) {
                     Graphics g = gui.getGraphics();
+                    Graphics g1 = gui.getImage().getGraphics();
+
                     int x = e.getX(), y = e.getY();
                     g.setColor(gui.color);
+                    g1.setColor(gui.color);
+                    
                     g.setPaintMode();
+                    g1.setPaintMode();
+
                     g.drawLine(lastx, lasty, x, y);
+                    g1.drawLine(lastx, lasty, x, y);
+
                     lastx = x;
                     lasty = y;
                 }
@@ -389,17 +397,28 @@ class DrawSwingGUI extends JFrame {
                 // and draw the resulting shape
                 public void mouseReleased(MouseEvent e) {
                     Graphics g = gui.getGraphics();
+                    Graphics g1 = gui.getImage().getGraphics();
+
                     if (lastx != -1) {
                         // first undraw a rubber rect
                         g.setXORMode(gui.color);
+
                         g.setColor(gui.getBackground());
                         doDraw(pressx, pressy, lastx, lasty, g);
+
+                        g1.setXORMode(gui.color);
+
+                        g1.setColor(gui.getBackground());
+                        doDraw(pressx, pressy, lastx, lasty, g1);
+
                         lastx = -1;
                         lasty = -1;
                     }
                     // these commands finish the rubberband mode
                     g.setPaintMode();
                     g.setColor(gui.color);
+                    g1.setPaintMode();
+                    g1.setColor(gui.color);
                     // draw the finel rectangle
                     doDraw(pressx, pressy, e.getX(), e.getY(), g);
                 }
@@ -408,18 +427,26 @@ class DrawSwingGUI extends JFrame {
                 // draw the resulting shape in "rubber-band mode"
                 public void mouseDragged(MouseEvent e) {
                     Graphics g = gui.getGraphics();
+                    Graphics g1 = gui.getImage().getGraphics();
+
                     // these commands set the rubberband mode
                     g.setXORMode(gui.color);
                     g.setColor(gui.getBackground());
+
+                    g1.setXORMode(gui.color);
+                    g1.setColor(gui.getBackground());
+
                     if (lastx != -1) {
                         // first undraw previous rubber rect
                         doDraw(pressx, pressy, lastx, lasty, g);
+                        doDraw(pressx, pressy, lastx, lasty, g1);
 
                     }
                     lastx = e.getX();
                     lasty = e.getY();
                     // draw new rubber rect
                     doDraw(pressx, pressy, lastx, lasty, g);
+                    doDraw(pressx, pressy, lastx, lasty, g1);
                 }
 
                 public void doDraw(int x0, int y0, int x1, int y1, Graphics g) {
