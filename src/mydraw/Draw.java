@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,9 +52,10 @@ public class Draw {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
-                String filename = new String("ZeichenPanel");
+                String filename = new String("TestBild");
 
                 try {
+
                     Draw.this.writeImage(filename);
                 } catch (IOException ex) {
                     Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
@@ -93,14 +95,29 @@ public class Draw {
 
     }
 
+    public Draw(int zwitdh, int zheight, String BgColor, String FgColor) {
+       
+      gui= new DrawSwingGUI();
+        
+        setHeight(zheight);
+        setWidth(zwitdh);
+        try {
+            setBgColor(BgColor);
+            setFGColor(FgColor);
+        } catch (ColorException ex) {
+            Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     public void setHeight(int Height) {
         JPanel pan = gui.getZeichenpanel();
-        pan.setPreferredSize(new Dimension(pan.getWidth(), Height));
+        pan.setSize(new Dimension(pan.getWidth(), Height));
     }
 
     public void setWidth(int Width) {
         JPanel pan = gui.getZeichenpanel();
-        pan.setPreferredSize(new Dimension(Width, pan.getHeight()));
+        pan.setSize(new Dimension(Width, pan.getHeight()));
     }
 
     public int getWidth() {
@@ -254,8 +271,6 @@ public class Draw {
         drawRectangle(new Point(200, 0), new Point(100, 100));
         drawPolyLine(points);
 
-        getBgColor();
-        getFGColor();
     }
 
     public void writeImage(String Filename) throws IOException {
