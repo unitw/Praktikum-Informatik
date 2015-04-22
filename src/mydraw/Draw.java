@@ -318,11 +318,10 @@ class DrawSwingGUI extends JFrame {
             public void actionPerformed(ActionEvent ae) {
 
                 DrawSwingGUI.this.repaint();
-<<<<<<< HEAD
-                
-=======
+
                 zeichenpanel.clearImage();
->>>>>>> FETCH_HEAD
+
+                
 
             }
         });
