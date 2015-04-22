@@ -55,12 +55,12 @@ public class DrawTest {
     public void testSetHeight() {
         System.out.println("setHeight");
         int expResult = 300;
-        Draw drawtest = new Draw(0, 0, "0", "0");
+        Draw drawtest = new Draw(0, 0, "white", "black");
 
         drawtest.setHeight(expResult);
         int result = drawtest.getHeigth();
 
-        assertEquals("Height must be 10", expResult, result);
+        assertEquals("Height must be 300", expResult, result);
 
     }
 
@@ -70,7 +70,7 @@ public class DrawTest {
     @Test
     public void testSetWidth() {
         System.out.println("setWidth");
-        Draw drawtest = new Draw(0, 0, "0", "0");
+        Draw drawtest = new Draw(0, 0,  "white", "black");
         int expResult = 100;
 
         drawtest.setWidth(expResult);
@@ -85,7 +85,7 @@ public class DrawTest {
     @Test
     public void testGetWidth() {
         System.out.println("getWidth");
-        Draw drawtest = new Draw(100, 0, "0", "0");
+        Draw drawtest = new Draw(100, 0, "white", "black");
 
         int expResult = 100;
         int result = drawtest.getWidth();
@@ -99,7 +99,7 @@ public class DrawTest {
     @Test
     public void testGetHeigth() {
         System.out.println("getHeigth");
-        Draw drawtest = new Draw(0, 300, "0", "0");
+        Draw drawtest = new Draw(0, 300,  "white", "black");
 
         int expResult = 300;
         int result = drawtest.getHeigth();
@@ -113,10 +113,10 @@ public class DrawTest {
     @Test
     public void testSetFGColor() throws Exception {
 
-        Draw drawtest = new Draw(100, 0, "0", "0");
+        Draw drawtest = new Draw(100, 0,  "white", "black");
         System.out.println("setFGColor");
 
-        String expResult = "black";
+        String expResult = "red";
 
         drawtest.setFGColor(expResult);
         String result = drawtest.getFGColor();
@@ -131,7 +131,7 @@ public class DrawTest {
     public void testGetFGColor() {
         System.out.println("getFGColor");
 
-        Draw drawtest = new Draw(100, 0, "0", "black");
+        Draw drawtest = new Draw(100, 0,  "white", "black");
 
         String expResult = "black";
         String result = drawtest.getFGColor();
@@ -145,7 +145,7 @@ public class DrawTest {
     @Test
     public void testSetBgColor() throws Exception {
         System.out.println("setBgColor");
-        Draw drawtest = new Draw(0, 0, "0", "0");
+        Draw drawtest = new Draw(0, 0,  "white", "black");
         String expResult = "red";
 
         String new_Color = "red";
@@ -162,7 +162,7 @@ public class DrawTest {
     @Test
     public void testGetBgColor() {
         System.out.println("getBgColor");
-        Draw drawtest = new Draw(0, 0, "white", "0");
+        Draw drawtest = new Draw(0, 0,  "white", "black");
         String expResult = "white";
         String result = drawtest.getBgColor();
         assertEquals(expResult, result);

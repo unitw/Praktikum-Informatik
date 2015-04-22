@@ -96,9 +96,9 @@ public class Draw {
     }
 
     public Draw(int zwitdh, int zheight, String BgColor, String FgColor) {
-       
-      gui= new DrawSwingGUI();
-        
+
+        gui = new DrawSwingGUI();
+
         setHeight(zheight);
         setWidth(zwitdh);
         try {
@@ -142,8 +142,8 @@ public class Draw {
     }
 
     public void setBgColor(String new_Color) throws ColorException {
+        JPanel zpan = gui.getZeichenpanel();
         try {
-            JPanel zpan = gui.getZeichenpanel();
             switch (new_Color) {
                 case "white":
                     zpan.setBackground(Color.white);
@@ -167,12 +167,11 @@ public class Draw {
                     break;
                 default:
                     throw new ColorException();
-
             }
         } catch (ColorException ex) {
+
             System.err.println("Color not supported");
         }
-
     }
 
     public String getBgColor() {
