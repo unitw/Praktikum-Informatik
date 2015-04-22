@@ -318,6 +318,7 @@ class DrawSwingGUI extends JFrame {
             public void actionPerformed(ActionEvent ae) {
 
                 DrawSwingGUI.this.repaint();
+                
 
             }
         });
