@@ -51,7 +51,7 @@ public class Draw {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
-                String filename = new String("ZeichenPanel1");
+                String filename = new String("TestBild");
 
                 try {
                     Draw.this.writeImage(filename);
@@ -72,7 +72,7 @@ public class Draw {
                     public void run() {
 
                         try {
-                            Draw.this.autodraw();
+                              Draw.this.autodraw();
                         } catch (ColorException ex) {
                             Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -85,10 +85,16 @@ public class Draw {
         gui.setSize(600, 400);
         gui.setLocationRelativeTo(null);
         gui.auswahlpanel.add(automal);
-        gui.auswahlpanel.add(save);
 
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setVisible(true);
+
+        gui.auswahlpanel.add(save);
+        try {
+            autodraw();
+        } catch (ColorException ex) {
+            Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void setHeight(int Height) {
@@ -155,29 +161,66 @@ public class Draw {
     }
 
     public String getBgColor() {
-        String Bgcolor = gui.getZeichenpanel().getBackground().toString();
-        String Bgcoloronly = Bgcolor.substring(14);
-        return Bgcoloronly;
+
+        Color Bgcolor = gui.getZeichenpanel().getBackground();
+
+        String r = Bgcolor.getRed() + "";
+        String g = Bgcolor.getGreen() + "";
+        String b = Bgcolor.getBlue() + "";
+        String rgb = r + g + b;
+        String bgc = "";
+        switch (rgb) {
+            case "255255255":
+                bgc = "white";
+                break;
+            case "000":
+                bgc = "black";
+                break;
+            case "02550":
+                bgc = "green";
+                break;
+            case "25500":
+                bgc = "red";
+                break;
+            case "00255":
+                bgc = "blue";
+                break;
+            case "":
+                bgc = "not supported";
+                break;
+        }
+        return bgc;
+
     }
 
     public void drawRectangle(Point upper_left, Point lower_right) {
 
         Graphics g = gui.getZeichenpanel().getGraphics();
+        g.setColor(gui.zeichenpanel.color);
         Graphics g1 = gui.zeichenpanel.getImage().getGraphics();
+        g1.setColor(gui.zeichenpanel.color);
         g.drawRect(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
         g1.drawRect(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
+        
+        
+
     }
 
     public void drawOval(Point upper_left, Point lower_right) {
         Graphics g = gui.getZeichenpanel().getGraphics();
+        g.setColor(gui.zeichenpanel.color);
         Graphics g1 = gui.zeichenpanel.getImage().getGraphics();
+        g1.setColor(gui.zeichenpanel.color);
         g.drawOval(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
         g1.drawOval(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
+
     }
 
     public void drawPolyLine(List<Point> points) {
         Graphics g = gui.getZeichenpanel().getGraphics();
         Graphics g1 = gui.zeichenpanel.getImage().getGraphics();
+        g.setColor(gui.zeichenpanel.color);
+        g1.setColor(gui.zeichenpanel.color);
         int[] x = new int[points.size()];
         int[] y = new int[points.size()];
 
@@ -197,24 +240,26 @@ public class Draw {
     }
 
     public void clear() {
-        Color c = gui.zeichenpanel.getBackground();
-        gui.zeichenpanel.repaint();
-        gui.zeichenpanel.setBackground(c);
+        gui.zeichenpanel.clear();
+
     }
 
     public void autodraw() throws ColorException {
 
-//        setBgColor("red");           /*******  FEHLER NOCHMAL CHECKEN
-//        setFGColor("green");         /*******  NOCHMAL CHECKEN
+        setFGColor("red");
+        setBgColor("green");
         List<Point> points = new ArrayList<>();
         points.add(new Point(0, 0));
         points.add(new Point(100, 100));
         points.add(new Point(100, 200));
         points.add(new Point(300, 200));
+
         drawOval(new Point(0, 5), new Point(100, 100));
         drawRectangle(new Point(200, 0), new Point(100, 100));
         drawPolyLine(points);
 
+        getBgColor();
+        getFGColor();
     }
 
     public void writeImage(String Filename) throws IOException {
@@ -227,7 +272,7 @@ public class Draw {
 
 class DrawSwingGUI extends JFrame {
 
-    Color color;
+    Color fgcolor;
     JComboBox shape_chooser = new JComboBox();
     JComboBox color_chooser = new JComboBox();
     JLabel labelcolor = new JLabel("Color");
@@ -238,9 +283,33 @@ class DrawSwingGUI extends JFrame {
     Zeichenpanel zeichenpanel = new Zeichenpanel(400, 300);
 
     public String getColor() {
-        String fgcolor = color.toString();
-        String fgcoloronly = fgcolor.substring(14);
-        return fgcoloronly;
+        Color fgcolor = zeichenpanel.color;
+        String r = fgcolor.getRed() + "";
+        String g = fgcolor.getGreen() + "";
+        String b = fgcolor.getBlue() + "";
+        String rgb = r + g + b;
+        String fgc = "";
+        switch (rgb) {
+            case "255255255":
+                fgc = "white";
+                break;
+            case "000":
+                fgc = "black";
+                break;
+            case "02550":
+                fgc = "green";
+                break;
+            case "25500":
+                fgc = "red";
+                break;
+            case "00255":
+                fgc = "blue";
+                break;
+            case "":
+                fgc = "not supported";
+                break;
+        }
+        return fgc;
 
     }
 
@@ -248,19 +317,19 @@ class DrawSwingGUI extends JFrame {
         try {
             switch (fgcolor) {
                 case "white":
-                    zeichenpanel.setForeground(Color.white);
+                    zeichenpanel.setPaintColor(Color.white);
                     break;
                 case "black":
-                    zeichenpanel.setForeground(Color.black);
+                    zeichenpanel.setPaintColor(Color.black);
                     break;
                 case "green":
-                    zeichenpanel.setForeground(Color.green);
+                    zeichenpanel.setPaintColor(Color.green);
                     break;
                 case "red":
-                    zeichenpanel.setForeground(Color.red);
+                    zeichenpanel.setPaintColor(Color.red);
                     break;
                 case "blue":
-                    zeichenpanel.setForeground(Color.blue);
+                    zeichenpanel.setPaintColor(Color.blue);
                     break;
                 default:
                     throw new ColorException();
@@ -299,9 +368,9 @@ class DrawSwingGUI extends JFrame {
 
     public void initGUI() {
         this.setLayout(new BorderLayout());
-        color = Color.BLACK;
+        fgcolor = Color.BLACK;
         this.setPreferredSize(new Dimension(500, 400));
-        color = Color.black;
+        fgcolor = Color.black;
         auswahlpanel.add(labelshape);
         auswahlpanel.add(shape_chooser);
         auswahlpanel.add(labelcolor);
@@ -320,8 +389,7 @@ class DrawSwingGUI extends JFrame {
                 DrawSwingGUI.this.repaint();
 
                 zeichenpanel.clearImage();
-
-                
+                zeichenpanel.clear();
 
             }
         });

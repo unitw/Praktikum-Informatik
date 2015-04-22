@@ -36,15 +36,25 @@ public class Zeichenpanel extends JPanel {
         Graphics gbg = image.createGraphics();
         gbg.setColor(color.white);
         gbg.fillRect(0, 0, 584, 300);
+    }
+
+    public void clear() {
+        this.setBackground(color.white);
+        this.repaint();
 
     }
 
-    public void clearImage(){
-          Graphics gbg = image.createGraphics();
+    public void setPaintColor(Color c) {
+        color = c;
+
+    }
+
+    public void clearImage() {
+        Graphics gbg = image.createGraphics();
         gbg.setColor(color.white);
         gbg.fillRect(0, 0, 584, 300);
     }
-    
+
     public BufferedImage getImage() {
 
         return image;
