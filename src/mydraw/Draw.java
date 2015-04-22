@@ -51,7 +51,7 @@ public class Draw {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
-                String filename = new String("TestBild");
+                String filename = new String("ZeichenPanel");
 
                 try {
                     Draw.this.writeImage(filename);
@@ -72,7 +72,7 @@ public class Draw {
                     public void run() {
 
                         try {
-                              Draw.this.autodraw();
+                            Draw.this.autodraw();
                         } catch (ColorException ex) {
                             Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -90,11 +90,7 @@ public class Draw {
         gui.setVisible(true);
 
         gui.auswahlpanel.add(save);
-        try {
-            autodraw();
-        } catch (ColorException ex) {
-            Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }
 
     public void setHeight(int Height) {
@@ -134,21 +130,23 @@ public class Draw {
             switch (new_Color) {
                 case "white":
                     zpan.setBackground(Color.white);
+                    gui.getZeichenpanel().setImageBackground(Color.white);
                     break;
                 case "black":
                     zpan.setBackground(Color.black);
-
+                    gui.getZeichenpanel().setImageBackground(Color.black);
                     break;
                 case "green":
                     zpan.setBackground(Color.green);
-
+                    gui.getZeichenpanel().setImageBackground(Color.green);
                     break;
                 case "red":
                     zpan.setBackground(Color.red);
-
+                    gui.getZeichenpanel().setImageBackground(Color.red);
                     break;
                 case "blue":
                     zpan.setBackground(Color.blue);
+                    gui.getZeichenpanel().setImageBackground(Color.blue);
                     break;
                 default:
                     throw new ColorException();
@@ -201,8 +199,6 @@ public class Draw {
         g1.setColor(gui.zeichenpanel.color);
         g.drawRect(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
         g1.drawRect(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
-        
-        
 
     }
 
