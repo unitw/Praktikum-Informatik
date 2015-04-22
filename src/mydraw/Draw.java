@@ -5,12 +5,14 @@
  */
 package mydraw;
 
+import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -18,8 +20,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,9 +39,9 @@ import javax.swing.SwingUtilities;
  */
 public class Draw {
 
-    static DrawSwingGUI gui;
+    DrawSwingGUI gui;
 
-    public static void main(String[] args) {
+    public Draw() {
 
         JButton automal = new JButton("Auto malen");
         JButton save = new JButton("Save");
@@ -54,7 +54,7 @@ public class Draw {
                 String filename = new String("ZeichenPanel1");
 
                 try {
-                    Draw.writeImage(filename);
+                    Draw.this.writeImage(filename);
                 } catch (IOException ex) {
                     Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -72,7 +72,7 @@ public class Draw {
                     public void run() {
 
                         try {
-                            Draw.autodraw();
+                            Draw.this.autodraw();
                         } catch (ColorException ex) {
                             Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -91,12 +91,12 @@ public class Draw {
         gui.setVisible(true);
     }
 
-    public static void setHeight(int Height) {
+    public void setHeight(int Height) {
         JPanel pan = gui.getZeichenpanel();
         pan.setPreferredSize(new Dimension(pan.getWidth(), Height));
     }
 
-    public static void setWidth(int Width) {
+    public void setWidth(int Width) {
         JPanel pan = gui.getZeichenpanel();
         pan.setPreferredSize(new Dimension(Width, pan.getHeight()));
     }
@@ -112,7 +112,7 @@ public class Draw {
         return pan.getHeight();
     }
 
-    public static void setFGColor(String fgcolor) throws ColorException {
+    public void setFGColor(String fgcolor) throws ColorException {
 
         gui.setColor(fgcolor);
 
@@ -122,7 +122,7 @@ public class Draw {
         return gui.getColor();
     }
 
-    public static void setBgColor(String new_Color) throws ColorException {
+    public void setBgColor(String new_Color) throws ColorException {
         try {
             JPanel zpan = gui.getZeichenpanel();
             switch (new_Color) {
@@ -154,13 +154,13 @@ public class Draw {
 
     }
 
-    public static String getBgColor() {
+    public String getBgColor() {
         String Bgcolor = gui.getZeichenpanel().getBackground().toString();
         String Bgcoloronly = Bgcolor.substring(14);
         return Bgcoloronly;
     }
 
-    public static void drawRectangle(Point upper_left, Point lower_right) {
+    public void drawRectangle(Point upper_left, Point lower_right) {
 
         Graphics g = gui.getZeichenpanel().getGraphics();
         Graphics g1 = gui.zeichenpanel.getImage().getGraphics();
@@ -168,14 +168,14 @@ public class Draw {
         g1.drawRect(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
     }
 
-    public static void drawOval(Point upper_left, Point lower_right) {
+    public void drawOval(Point upper_left, Point lower_right) {
         Graphics g = gui.getZeichenpanel().getGraphics();
         Graphics g1 = gui.zeichenpanel.getImage().getGraphics();
         g.drawOval(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
         g1.drawOval(upper_left.x, upper_left.y, lower_right.x, lower_right.y);
     }
 
-    public static void drawPolyLine(List<Point> points) {
+    public void drawPolyLine(List<Point> points) {
         Graphics g = gui.getZeichenpanel().getGraphics();
         Graphics g1 = gui.zeichenpanel.getImage().getGraphics();
         int[] x = new int[points.size()];
@@ -191,18 +191,18 @@ public class Draw {
         g1.drawPolyline(x, y, points.size());
     }
 
-    public static BufferedImage getDrawing() {
+    public BufferedImage getDrawing() {
         BufferedImage awtImage = gui.zeichenpanel.getImage();
         return awtImage;
     }
 
-    public static void clear() {
+    public void clear() {
         Color c = gui.zeichenpanel.getBackground();
         gui.zeichenpanel.repaint();
         gui.zeichenpanel.setBackground(c);
     }
 
-    public static void autodraw() throws ColorException {
+    public void autodraw() throws ColorException {
 
 //        setBgColor("red");           /*******  FEHLER NOCHMAL CHECKEN
 //        setFGColor("green");         /*******  NOCHMAL CHECKEN
@@ -217,7 +217,7 @@ public class Draw {
 
     }
 
-    public static void writeImage(String Filename) throws IOException {
+    public void writeImage(String Filename) throws IOException {
         MyBMPFile bmpfile = new MyBMPFile();
 
         gui.zeichenpanel.saveImage(Filename, "png");
@@ -318,7 +318,11 @@ class DrawSwingGUI extends JFrame {
             public void actionPerformed(ActionEvent ae) {
 
                 DrawSwingGUI.this.repaint();
+<<<<<<< HEAD
                 
+=======
+                zeichenpanel.clearImage();
+>>>>>>> FETCH_HEAD
 
             }
         });
@@ -404,12 +408,10 @@ class DrawSwingGUI extends JFrame {
                     if (lastx != -1) {
                         // first undraw a rubber rect
                         g.setXORMode(gui.color);
-
                         g.setColor(gui.getBackground());
                         doDraw(pressx, pressy, lastx, lasty, g);
 
                         g1.setXORMode(gui.color);
-
                         g1.setColor(gui.getBackground());
                         doDraw(pressx, pressy, lastx, lasty, g1);
 
@@ -423,6 +425,7 @@ class DrawSwingGUI extends JFrame {
                     g1.setColor(gui.color);
                     // draw the finel rectangle
                     doDraw(pressx, pressy, e.getX(), e.getY(), g);
+                    doDraw(pressx, pressy, e.getX(), e.getY(), g1);
                 }
 
                 // mouse released => temporarily set second corner of rectangle
