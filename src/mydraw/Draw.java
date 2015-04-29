@@ -24,7 +24,9 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -144,30 +146,38 @@ public class Draw {
     public void setBgColor(String new_Color) throws ColorException {
         JPanel zpan = gui.getZeichenpanel();
         try {
-            switch (new_Color) {
-                case "white":
-                    zpan.setBackground(Color.white);
-                    gui.getZeichenpanel().setImageBackground(Color.white);
-                    break;
-                case "black":
-                    zpan.setBackground(Color.black);
-                    gui.getZeichenpanel().setImageBackground(Color.black);
-                    break;
-                case "green":
-                    zpan.setBackground(Color.green);
-                    gui.getZeichenpanel().setImageBackground(Color.green);
-                    break;
-                case "red":
-                    zpan.setBackground(Color.red);
-                    gui.getZeichenpanel().setImageBackground(Color.red);
-                    break;
-                case "blue":
-                    zpan.setBackground(Color.blue);
-                    gui.getZeichenpanel().setImageBackground(Color.blue);
-                    break;
-                default:
-                    throw new ColorException();
+
+            if(gui.getHashtable().get(new_Color)==null){
+                throw new ColorException();
             }
+            
+            zpan.setBackground((Color) gui.getHashtable().get(new_Color));
+            gui.getZeichenpanel().setImageBackground((Color) gui.getHashtable().get(new_Color));
+//
+//            switch (new_Color) {
+//                case "white":
+//                    zpan.setBackground(Color.white);
+//                    gui.getZeichenpanel().setImageBackground(Color.white);
+//                    break;
+//                case "black":
+//                    zpan.setBackground(Color.black);
+//                    gui.getZeichenpanel().setImageBackground(Color.black);
+//                    break;
+//                case "green":
+//                    zpan.setBackground(Color.green);
+//                    gui.getZeichenpanel().setImageBackground(Color.green);
+//                    break;
+//                case "red":
+//                    zpan.setBackground(Color.red);
+//                    gui.getZeichenpanel().setImageBackground(Color.red);
+//                    break;
+//                case "blue":
+//                    zpan.setBackground(Color.blue);
+//                    gui.getZeichenpanel().setImageBackground(Color.blue);
+//                    break;
+//                default:
+//                    throw new ColorException();
+//            }
         } catch (ColorException ex) {
 
             System.err.println("Color not supported");
@@ -185,19 +195,19 @@ public class Draw {
         String bgc = "";
         switch (rgb) {
             case "255255255":
-                bgc = "white";
+                bgc = "White";
                 break;
             case "000":
-                bgc = "black";
+                bgc = "Black";
                 break;
             case "02550":
-                bgc = "green";
+                bgc = "Green";
                 break;
             case "25500":
-                bgc = "red";
+                bgc = "Red";
                 break;
             case "00255":
-                bgc = "blue";
+                bgc = "Blue";
                 break;
             case "":
                 bgc = "not supported";
@@ -273,8 +283,7 @@ public class Draw {
     }
 
     public void writeImage(String Filename) throws IOException {
-        MyBMPFile bmpfile = new MyBMPFile();
-
+      
         gui.zeichenpanel.saveImage(Filename, "png");
 
     }
@@ -292,6 +301,15 @@ class DrawSwingGUI extends JFrame {
     JPanel auswahlpanel = new JPanel();
     Zeichenpanel zeichenpanel = new Zeichenpanel(400, 300);
 
+   private ConcurrentHashMap<String, Color> ht = new ConcurrentHashMap<>();
+
+    
+    
+    
+    
+    public ConcurrentHashMap getHashtable(){
+        return ht;
+    }
     public String getColor() {
         Color fgcolor = zeichenpanel.color;
         String r = fgcolor.getRed() + "";
@@ -376,7 +394,7 @@ class DrawSwingGUI extends JFrame {
         this.zeichenpanel = zeichenpanel;
     }
 
-    public void initGUI() {
+    public final void initGUI() {
         this.setLayout(new BorderLayout());
         fgcolor = Color.BLACK;
         this.setPreferredSize(new Dimension(500, 400));
@@ -422,8 +440,16 @@ class DrawSwingGUI extends JFrame {
         color_chooser.addItem("Blue");
     }
 
-    public DrawSwingGUI() {
+    public final void initColors() {
 
+        ht.put("Black", Color.BLACK);
+        ht.put("Green", Color.GREEN);
+        ht.put("Red", Color.RED);
+        ht.put("Blue", Color.BLUE);
+    }
+
+    public DrawSwingGUI() {
+        initColors();
         initGUI();
         class ShapeManager implements ItemListener {
 
@@ -602,15 +628,9 @@ class DrawSwingGUI extends JFrame {
 
             // user selected new color => store new color in DrawGUI
             public void itemStateChanged(ItemEvent e) {
-                if (e.getItem().equals("Black")) {
-                    zeichenpanel.color = Color.black;
-                } else if (e.getItem().equals("Green")) {
-                    zeichenpanel.color = Color.green;
-                } else if (e.getItem().equals("Red")) {
-                    zeichenpanel.color = Color.red;
-                } else if (e.getItem().equals("Blue")) {
-                    zeichenpanel.color = Color.blue;
-                }
+
+                zeichenpanel.color = ht.get(e.getItem().toString());
+
             }
         }
         color_chooser.addItemListener(new ColorItemListener());

@@ -145,10 +145,10 @@ public class DrawTest {
     @Test
     public void testSetBgColor() throws Exception {
         System.out.println("setBgColor");
-        Draw drawtest = new Draw(0, 0,  "white", "black");
-        String expResult = "red";
+        Draw drawtest = new Draw(0, 0,  "White", "Black");
+        String expResult = "Red";
 
-        String new_Color = "red";
+        String new_Color = "Red";
         drawtest.setBgColor(new_Color);
         String result = drawtest.getBgColor();
         assertEquals(expResult, result);
@@ -162,9 +162,10 @@ public class DrawTest {
     @Test
     public void testGetBgColor() {
         System.out.println("getBgColor");
-        Draw drawtest = new Draw(0, 0,  "white", "black");
-        String expResult = "white";
+        Draw drawtest = new Draw(0, 0,  "White", "Black");
+        String expResult = "White";
         String result = drawtest.getBgColor();
+
         assertEquals(expResult, result);
         assertFalse("0".equals(result));
 
