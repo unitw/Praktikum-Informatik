@@ -85,7 +85,8 @@ public class DrawSwingGUI extends JFrame {
             System.err.println("Color not supported");
         }
     }
-
+//soweit alles fertig
+    
     public JComboBox getColor_chooser() {
         return color_chooser;
     }
