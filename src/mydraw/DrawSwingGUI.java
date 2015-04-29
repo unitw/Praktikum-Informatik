@@ -16,6 +16,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -47,62 +48,71 @@ public class DrawSwingGUI extends JFrame {
 
     public String getColor() {
         Color fgcolor = zeichenpanel.color;
-        String r = fgcolor.getRed() + "";
-        String g = fgcolor.getGreen() + "";
-        String b = fgcolor.getBlue() + "";
-        String rgb = r + g + b;
-        String fgc = "";
-        switch (rgb) {
-            case "255255255":
-                fgc = "white";
-                break;
-            case "000":
-                fgc = "black";
-                break;
-            case "02550":
-                fgc = "green";
-                break;
-            case "25500":
-                fgc = "red";
-                break;
-            case "00255":
-                fgc = "blue";
-                break;
-            case "":
-                fgc = "not supported";
-                break;
-        }
-        return fgc;
+        String fgc = null;
 
+        Enumeration e = ht.keys();
+        while (e.hasMoreElements()) {
+            String key = (String) e.nextElement();
+            Color c = ht.get(key);
+            if (c == fgcolor) {
+                fgc = key;
+                break;
+            }
+
+        }
+
+//        try {
+//
+//            if (this.getHashtable().get(fgcolor) == null) {
+//                throw new ColorException();
+//            }
+//
+//            Object oas = this.getHashtable().get(Color.black);
+//
+//        } catch (ColorException ex) {
+//
+//        }
+//        
+//        String r = fgcolor.getRed() + "";
+//        String g = fgcolor.getGreen() + "";
+//        String b = fgcolor.getBlue() + "";
+//        String rgb = r + g + b;
+//        String fgc = "";
+//        switch (rgb) {
+//            case "255255255":
+//                fgc = "white";
+//                break;
+//            case "000":
+//                fgc = "black";
+//                break;
+//            case "02550":
+//                fgc = "green";
+//                break;
+//            case "25500":
+//                fgc = "red";
+//                break;
+//            case "00255":
+//                fgc = "blue";
+//                break;
+//            case "":
+//                fgc = "not supported";
+//                break;
+//        }
+        return fgc;
     }
 
     public void setColor(String fgcolor) {
-        try {
-            switch (fgcolor) {
-                case "white":
-                    zeichenpanel.setPaintColor(Color.white);
-                    break;
-                case "black":
-                    zeichenpanel.setPaintColor(Color.black);
-                    break;
-                case "green":
-                    zeichenpanel.setPaintColor(Color.green);
-                    break;
-                case "red":
-                    zeichenpanel.setPaintColor(Color.red);
-                    break;
-                case "blue":
-                    zeichenpanel.setPaintColor(Color.blue);
-                    break;
-                default:
-                    throw new ColorException();
 
+        try {
+            if (ht.get(fgcolor) == null) {
+                throw new ColorException();
             }
+            zeichenpanel.setPaintColor(ht.get(fgcolor));
+
         } catch (ColorException ex) {
 
             System.err.println("Color not supported");
         }
-
     }
 
     public JComboBox getColor_chooser() {

@@ -116,7 +116,7 @@ public class DrawTest {
         Draw drawtest = new Draw(100, 0,  "white", "black");
         System.out.println("setFGColor");
 
-        String expResult = "red";
+        String expResult = "Red";
 
         drawtest.setFGColor(expResult);
         String result = drawtest.getFGColor();
@@ -131,9 +131,9 @@ public class DrawTest {
     public void testGetFGColor() {
         System.out.println("getFGColor");
 
-        Draw drawtest = new Draw(100, 0,  "white", "black");
+        Draw drawtest = new Draw(100, 0,  "White", "Black");
 
-        String expResult = "black";
+        String expResult = "Black";
         String result = drawtest.getFGColor();
         assertEquals(expResult, result);
         assertFalse("0".equals(result));
