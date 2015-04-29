@@ -5,6 +5,10 @@
  */
 package mydraw;
 
+import Drawer.Drawer;
+import Drawer.OvalDrawer;
+import Drawer.RectangleDrawer;
+import Drawer.ScribbleDrawer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -40,74 +44,41 @@ public class DrawSwingGUI extends JFrame {
     JPanel auswahlpanel = new JPanel();
     Zeichenpanel zeichenpanel = new Zeichenpanel(400, 300);
 
-    private ConcurrentHashMap<String, Color> ht = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Color> colorhashtable = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Drawer> drawerhastable = new ConcurrentHashMap<>();
 
-    public ConcurrentHashMap getHashtable() {
-        return ht;
+    public ConcurrentHashMap getColorHashtable() {
+        return colorhashtable;
+    }
+
+    public ConcurrentHashMap getdrawerHashtable() {
+        return drawerhastable;
     }
 
     public String getColor() {
         Color fgcolor = zeichenpanel.color;
         String fgc = null;
 
-        Enumeration e = ht.keys();
+        Enumeration e = colorhashtable.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
-            Color c = ht.get(key);
+            Color c = colorhashtable.get(key);
             if (c == fgcolor) {
                 fgc = key;
                 break;
             }
 
         }
-
-//        try {
-//
-//            if (this.getHashtable().get(fgcolor) == null) {
-//                throw new ColorException();
-//            }
-//
-//            Object oas = this.getHashtable().get(Color.black);
-//
-//        } catch (ColorException ex) {
-//
-//        }
-//        
-//        String r = fgcolor.getRed() + "";
-//        String g = fgcolor.getGreen() + "";
-//        String b = fgcolor.getBlue() + "";
-//        String rgb = r + g + b;
-//        String fgc = "";
-//        switch (rgb) {
-//            case "255255255":
-//                fgc = "white";
-//                break;
-//            case "000":
-//                fgc = "black";
-//                break;
-//            case "02550":
-//                fgc = "green";
-//                break;
-//            case "25500":
-//                fgc = "red";
-//                break;
-//            case "00255":
-//                fgc = "blue";
-//                break;
-//            case "":
-//                fgc = "not supported";
-//                break;
-//        }
         return fgc;
     }
 
     public void setColor(String fgcolor) {
 
         try {
-            if (ht.get(fgcolor) == null) {
+            if (colorhashtable.get(fgcolor) == null) {
                 throw new ColorException();
             }
-            zeichenpanel.setPaintColor(ht.get(fgcolor));
+            zeichenpanel.setPaintColor(colorhashtable.get(fgcolor));
 
         } catch (ColorException ex) {
 
@@ -187,17 +158,24 @@ public class DrawSwingGUI extends JFrame {
 
     public final void initColors() {
 
-        ht.put("Black", Color.BLACK);
-        ht.put("Green", Color.GREEN);
-        ht.put("Red", Color.RED);
-        ht.put("Blue", Color.BLUE);
+        colorhashtable.put("Black", Color.BLACK);
+        colorhashtable.put("Green", Color.GREEN);
+        colorhashtable.put("Red", Color.RED);
+        colorhashtable.put("Blue", Color.BLUE);
+    }
+
+    public void initDrawers() {
+        drawerhastable.put("Rectangle", new RectangleDrawer(zeichenpanel));
+        drawerhastable.put("Scribble", new ScribbleDrawer(zeichenpanel));
+        drawerhastable.put("Oval", new OvalDrawer(zeichenpanel));
     }
 
     public DrawSwingGUI() {
         initColors();
+        initDrawers();
         initGUI();
 
-        shape_chooser.addItemListener(new ShapeManager(zeichenpanel));
+        shape_chooser.addItemListener(new ShapeManager(this, zeichenpanel));
         color_chooser.addItemListener(new ColorItemListener(this, zeichenpanel));
 
     }

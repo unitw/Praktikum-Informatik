@@ -26,7 +26,7 @@ public class ColorItemListener implements ItemListener {
 
     public void itemStateChanged(ItemEvent e) {
 
-        pan.color = (Color) gui.getHashtable().get(e.getItem().toString());
+        pan.color = (Color) gui.getColorHashtable().get(e.getItem().toString());
 
     }
 }

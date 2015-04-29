@@ -146,12 +146,12 @@ public class Draw {
         JPanel zpan = gui.getZeichenpanel();
         try {
 
-            if (gui.getHashtable().get(new_Color) == null) {
+            if (gui.getColorHashtable().get(new_Color) == null) {
                 throw new ColorException();
             }
 
-            zpan.setBackground((Color) gui.getHashtable().get(new_Color));
-            gui.getZeichenpanel().setImageBackground((Color) gui.getHashtable().get(new_Color));
+            zpan.setBackground((Color) gui.getColorHashtable().get(new_Color));
+            gui.getZeichenpanel().setImageBackground((Color) gui.getColorHashtable().get(new_Color));
         } catch (ColorException ex) {
 
             System.err.println("Color not supported");
