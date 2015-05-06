@@ -27,7 +27,7 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
         int h = Math.abs(y1 - y0);
         // draw oval instead of rectangle
         // g.drawOval(x, y, w, h);
-        CDrawReceiver drawble = new CDrawReceiver(x0, y0, x1, y1, g.getColor(), "Oval");
-
+        CDrawReceiver drawable = new CDrawReceiver(x0, y0, x1, y1, g.getColor(), "Oval");
+        gui.getCommmandList().add(drawable);
     }
 }

@@ -55,19 +55,7 @@ public class ShapeManager implements ItemListener {
 
     // user selected new shape => reset the shape mode
     public void itemStateChanged(ItemEvent e) {
-
         String shape = e.getItem().toString();
-
-        GeneralDrawer asdf = (GeneralDrawer) drwing.getdrawerHashtable().get(shape);
-        CDrawReceiver drawer = null;
-       
-        if (shape.equals("Rectangle")) {
-
-          //  drawer = new CDrawReceiver(gui, (RectangleDrawer) asdf);
-
-            setCurrentDrawer((ShapeDrawer) asdf);
-        }
-        
-
+        setCurrentDrawer((ShapeDrawer) drwing.getdrawerHashtable().get(shape));
     }
 }
