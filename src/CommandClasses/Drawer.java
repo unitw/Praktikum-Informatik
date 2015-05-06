@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Drawer;
+package CommandClasses;
 
 import java.awt.Graphics;
 
 /**
  *
- * @author 3welge
+ * @author 3flim
  */
 public interface Drawer {
-
-    public void doDraw(int x0, int y0, int x1, int y1, Graphics g);
-
+    
+    public void draw(Graphics g);
 }

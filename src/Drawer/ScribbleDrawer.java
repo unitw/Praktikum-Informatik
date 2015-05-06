@@ -8,17 +8,18 @@ package Drawer;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import mydraw.ShapeDrawer;
-import mydraw.Zeichenpanel;
+import mydraw.ZeichenPanel;
 
 /**
  *
  * @author 3welge
  */
-public class ScribbleDrawer extends ShapeDrawer implements Drawer {
+public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
 
-    Zeichenpanel gui;
+    ZeichenPanel gui;
+    Graphics g;
 
-    public ScribbleDrawer(Zeichenpanel gui) {
+    public ScribbleDrawer(ZeichenPanel gui) {
         this.gui = gui;
     }
 
@@ -30,7 +31,7 @@ public class ScribbleDrawer extends ShapeDrawer implements Drawer {
     }
 
     public void mouseDragged(MouseEvent e) {
-        Graphics g = gui.getGraphics();
+        g = gui.getGraphics();
         Graphics g1 = gui.getImage().getGraphics();
 
         int x = e.getX(), y = e.getY();
@@ -47,8 +48,20 @@ public class ScribbleDrawer extends ShapeDrawer implements Drawer {
         lasty = y;
     }
 
-    @Override
     public void doDraw(int x0, int y0, int x1, int y1, Graphics g) {
+
+    }
+    
+    
+    
+   
+
+    public Graphics getG() {
+        return g;
+    }
+
+    
+    public void draw(Graphics g) {
 
     }
 }

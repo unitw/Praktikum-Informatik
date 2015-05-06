@@ -5,28 +5,33 @@
  */
 package Drawer;
 
+import CommandClasses.Drawer;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import Drawer.Drawer;
 import mydraw.ShapeDrawer;
-import mydraw.Zeichenpanel;
+import mydraw.ZeichenPanel;
 
 /**
  *
  * @author 3welge
  */
-public class RectangleDrawer extends ShapeDrawer implements Drawer {
+public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawer {
 
-    Zeichenpanel gui;
+    ZeichenPanel gui;
+    Graphics g;
 
-    public RectangleDrawer(Zeichenpanel gui) {
+    public RectangleDrawer(ZeichenPanel gui) {
         this.gui = gui;
     }
 
     int pressx, pressy;
     int lastx = -1, lasty = -1;
 
+    public Rectangle rect;
+
     // mouse pressed => fix first corner of rectangle
+
     public void mousePressed(MouseEvent e) {
         pressx = e.getX();
         pressy = e.getY();
@@ -64,7 +69,7 @@ public class RectangleDrawer extends ShapeDrawer implements Drawer {
     // mouse released => temporarily set second corner of rectangle
     // draw the resulting shape in "rubber-band mode"
     public void mouseDragged(MouseEvent e) {
-        Graphics g = gui.getGraphics();
+        g = gui.getGraphics();
         Graphics g1 = gui.getImage().getGraphics();
 
         // these commands set the rubberband mode
@@ -87,6 +92,7 @@ public class RectangleDrawer extends ShapeDrawer implements Drawer {
         doDraw(pressx, pressy, lastx, lasty, g1);
     }
 
+    @Override
     public void doDraw(int x0, int y0, int x1, int y1, Graphics g) {
         // calculate upperleft and width/height of rectangle
         int x = Math.min(x0, x1);
@@ -94,6 +100,18 @@ public class RectangleDrawer extends ShapeDrawer implements Drawer {
         int w = Math.abs(x1 - x0);
         int h = Math.abs(y1 - y0);
         // draw rectangle
-        g.drawRect(x, y, w, h);
+
+        //g.drawRect(x, y, w, h);
+        rect = new Rectangle(x, y, w, h);
+
     }
+
+    
+
+    @Override
+    public void draw(Graphics g) {
+            g.drawRect(rect.x, rect.y, rect.width, rect.height);
+        
+    }
+
 }

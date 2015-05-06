@@ -5,7 +5,7 @@
  */
 package mydraw;
 
-import Drawer.Drawer;
+import Drawer.GeneralDrawer;
 import Drawer.OvalDrawer;
 import Drawer.RectangleDrawer;
 import Drawer.ScribbleDrawer;
@@ -42,10 +42,11 @@ public class DrawSwingGUI extends JFrame {
     JButton buttonquit = new JButton("Quit");
     JButton buttonclear = new JButton("Clear");
     JPanel auswahlpanel = new JPanel();
-    Zeichenpanel zeichenpanel = new Zeichenpanel(400, 300);
+    ZeichenPanel zeichenpanel = new ZeichenPanel(400, 300);
 
+    
     private ConcurrentHashMap<String, Color> colorhashtable = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, Drawer> drawerhastable = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, GeneralDrawer> drawerhastable = new ConcurrentHashMap<>();
 
     public ConcurrentHashMap getColorHashtable() {
         return colorhashtable;
@@ -59,6 +60,7 @@ public class DrawSwingGUI extends JFrame {
         Color fgcolor = zeichenpanel.color;
         String fgc = null;
 
+        
         Enumeration e = colorhashtable.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
@@ -103,11 +105,11 @@ public class DrawSwingGUI extends JFrame {
         this.auswahlpanel = auswahlpanel;
     }
 
-    public Zeichenpanel getZeichenpanel() {
+    public ZeichenPanel getZeichenpanel() {
         return zeichenpanel;
     }
 
-    public void setZeichenpanel(Zeichenpanel zeichenpanel) {
+    public void setZeichenpanel(ZeichenPanel zeichenpanel) {
         this.zeichenpanel = zeichenpanel;
     }
 

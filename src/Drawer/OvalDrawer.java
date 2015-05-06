@@ -6,18 +6,19 @@
 package Drawer;
 
 import java.awt.Graphics;
-import mydraw.Zeichenpanel;
+import mydraw.ZeichenPanel;
 
 /**
  *
  * @author 3welge
  */
-public class OvalDrawer extends RectangleDrawer implements Drawer {
+public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
 
-    public OvalDrawer(Zeichenpanel gui) {
+    public OvalDrawer(ZeichenPanel gui) {
         super(gui);
     }
 
+    @Override
     public void doDraw(int x0, int y0, int x1, int y1, Graphics g) {
         int x = Math.min(x0, x1);
         int y = Math.min(y0, y1);

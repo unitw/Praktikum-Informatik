@@ -5,16 +5,13 @@
  */
 package mydraw;
 
-import Drawer.OvalDrawer;
+import CommandClasses.CDrawReceiver;
+import CommandClasses.Drawer;
+import Drawer.GeneralDrawer;
 import Drawer.RectangleDrawer;
 import Drawer.ScribbleDrawer;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 
 /**
  *
@@ -22,13 +19,13 @@ import java.awt.event.MouseMotionListener;
  */
 public class ShapeManager implements ItemListener {
 
-    Zeichenpanel gui;
+    ZeichenPanel gui;
     DrawSwingGUI drwing;
     // if this class is active, the mouse is interpreted as a pen
     // if this class is active, ovals are drawn
     ShapeDrawer currentDrawer;
 
-    public ShapeManager(DrawSwingGUI drwing, Zeichenpanel itsGui) {
+    public ShapeManager(DrawSwingGUI drwing, ZeichenPanel itsGui) {
         ScribbleDrawer scribbleDrawer = new ScribbleDrawer(gui);
         gui = itsGui;
 
@@ -59,6 +56,21 @@ public class ShapeManager implements ItemListener {
     // user selected new shape => reset the shape mode
     public void itemStateChanged(ItemEvent e) {
 
-        setCurrentDrawer((ShapeDrawer) drwing.getdrawerHashtable().get(e.getItem().toString()));
+        String shape = e.getItem().toString();
+
+        GeneralDrawer asdf = (GeneralDrawer) drwing.getdrawerHashtable().get(shape);
+        CDrawReceiver drawer = null;
+       
+        if (shape.equals("Rectangle")) {
+
+            drawer = new CDrawReceiver(gui, (RectangleDrawer) asdf);
+
+            setCurrentDrawer((ShapeDrawer) asdf);
+        }
+
+        if (drawer != null) {
+            drawer.execute();
+        }
+
     }
 }
