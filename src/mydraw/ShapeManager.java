@@ -63,7 +63,7 @@ public class ShapeManager implements ItemListener {
        
         if (shape.equals("Rectangle")) {
 
-            drawer = new CDrawReceiver(gui, (RectangleDrawer) asdf);
+          //  drawer = new CDrawReceiver(gui, (RectangleDrawer) asdf);
 
             setCurrentDrawer((ShapeDrawer) asdf);
         }

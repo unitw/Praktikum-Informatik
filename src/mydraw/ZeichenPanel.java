@@ -98,10 +98,11 @@ public class ZeichenPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        for(CDrawReceiver d:this.getCommandList()){
-          d.draw(this.getGraphics());
-          
-        }
+       for(int i=0; i<this.getCommandList().size();i++){
+           CDrawReceiver d= (CDrawReceiver) this.getCommandList().get(i);
+           d.draw(this.getGraphics());
+           
+       }
         
     }
 
