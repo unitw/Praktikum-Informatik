@@ -5,15 +5,14 @@
  */
 package mydraw;
 
+import CommandClasses.CDrawReceiver;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -27,6 +26,15 @@ public class ZeichenPanel extends JPanel {
     private int h;
     public Color color = Color.black;
     private BufferedImage image;
+    LinkedList<CDrawReceiver> commandList = new LinkedList();
+
+    public LinkedList getCommandList() {
+        return commandList;
+    }
+
+    public void setCommandList(LinkedList commandList) {
+        this.commandList = commandList;
+    }
 
     public ZeichenPanel(int w, int h) {
         this.w = w;
@@ -44,14 +52,13 @@ public class ZeichenPanel extends JPanel {
 
     }
 
-   public void setImageBackground(Color c){
-       Graphics ig= image.getGraphics();
-         ig.setColor(c);
+    public void setImageBackground(Color c) {
+        Graphics ig = image.getGraphics();
+        ig.setColor(c);
         ig.fillRect(0, 0, 584, 300);
-       
-   }
-    
-    
+
+    }
+
     public void setPaintColor(Color c) {
         color = c;
 
@@ -90,6 +97,12 @@ public class ZeichenPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        for(CDrawReceiver d:this.getCommandList()){
+          d.draw(this.getGraphics());
+          
+        }
+        
     }
 
 }

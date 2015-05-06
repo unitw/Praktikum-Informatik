@@ -5,6 +5,7 @@
  */
 package Drawer;
 
+import CommandClasses.CDrawReceiver;
 import CommandClasses.Drawer;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -31,7 +32,6 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
     public Rectangle rect;
 
     // mouse pressed => fix first corner of rectangle
-
     public void mousePressed(MouseEvent e) {
         pressx = e.getX();
         pressy = e.getY();
@@ -104,14 +104,15 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         //g.drawRect(x, y, w, h);
         rect = new Rectangle(x, y, w, h);
 
-    }
+        CDrawReceiver drawable = new CDrawReceiver(rect, g.getColor(), "Rectangle");
 
-    
+        gui.getCommandList().add(drawable);
+    }
 
     @Override
     public void draw(Graphics g) {
-            g.drawRect(rect.x, rect.y, rect.width, rect.height);
-        
+        g.drawRect(rect.x, rect.y, rect.width, rect.height);
+
     }
 
 }
