@@ -5,6 +5,7 @@
  */
 package Drawer;
 
+import CommandClasses.CDrawReceiver;
 import java.awt.Graphics;
 import mydraw.ZeichenPanel;
 
@@ -25,6 +26,8 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
         int w = Math.abs(x1 - x0);
         int h = Math.abs(y1 - y0);
         // draw oval instead of rectangle
-        g.drawOval(x, y, w, h);
+        // g.drawOval(x, y, w, h);
+        CDrawReceiver drawble = new CDrawReceiver(x0, y0, x1, y1, g.getColor(), "Oval");
+
     }
 }

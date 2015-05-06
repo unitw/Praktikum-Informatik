@@ -106,7 +106,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
 
         CDrawReceiver drawable = new CDrawReceiver(rect, g.getColor(), "Rectangle");
 
-        gui.getCommandList().add(drawable);
+        gui.getCommmandList().add(drawable);
     }
 
     @Override

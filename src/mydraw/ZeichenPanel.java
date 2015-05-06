@@ -5,15 +5,14 @@
  */
 package mydraw;
 
+import CommandClasses.CDrawReceiver;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.LinkedList;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -21,14 +20,23 @@ import javax.swing.JPanel;
  *
  * @author 3flim
  */
-public class Zeichenpanel extends JPanel {
+public class ZeichenPanel extends JPanel {
 
     private int w;
     private int h;
     public Color color = Color.black;
     private BufferedImage image;
+    LinkedList commmandList = new LinkedList();
 
-    public Zeichenpanel(int w, int h) {
+    public LinkedList getCommmandList() {
+        return commmandList;
+    }
+
+    public void setCommmandList(LinkedList commmandList) {
+        this.commmandList = commmandList;
+    }
+
+    public ZeichenPanel(int w, int h) {
         this.w = w;
         this.h = h;
         this.setPreferredSize(new Dimension(w, h));
@@ -90,6 +98,12 @@ public class Zeichenpanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
+        
+        for(int i=0; i<this.getCommmandList().size();i++){
+            CDrawReceiver dr= (CDrawReceiver) this.getCommmandList().get(i);
+            
+        }
     }
 
 }

@@ -67,10 +67,7 @@ public class ShapeManager implements ItemListener {
 
             setCurrentDrawer((ShapeDrawer) asdf);
         }
-
-        if (drawer != null) {
-            drawer.execute();
-        }
+        
 
     }
 }
