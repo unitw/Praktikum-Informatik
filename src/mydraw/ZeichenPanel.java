@@ -107,7 +107,7 @@ public class ZeichenPanel extends JPanel {
 
         super.paintComponent(g);
 
-        this.drawCommandList();
+        //this.drawCommandList();
     }
 
 }

@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import mydraw.Draw;
 import mydraw.ZeichenPanel;
@@ -25,18 +26,27 @@ public class CDrawReceiver implements Drawer {
     Polygon poly = null;
     Color c = null;
     int x, y, w, h;
-    int[] xpos;
-    int[] ypos;
+    ArrayList<Integer> xpos;
+    ArrayList<Integer> ypos;
 
+    
+    ArrayList<Integer> xposakt;
+    ArrayList<Integer> yposakt;
+
+    
     public CDrawReceiver(Rectangle rect, Color c, String s) {
         this.rect = rect;
         this.c = c;
         this.s = s;
     }
 
-    public CDrawReceiver(int[] x, int[] y, Color c, String s) {
-        this.xpos = x;
-        this.ypos = y;
+    public CDrawReceiver(ArrayList xpos, ArrayList ypos,ArrayList xposakt,ArrayList yposakt, Color c, String s) {
+       
+        this.xpos=xpos;
+        this.ypos=ypos;
+        this.xposakt=xposakt;
+        this.yposakt=ypos;
+        
         this.c = c;
         this.s = s;
 
@@ -67,8 +77,8 @@ public class CDrawReceiver implements Drawer {
             case "Scribble":
                 g.setColor(c);
                 
-                for(int i=0;i<xpos.length;i++){
-                    g.drawLine(xpos[i], ypos[i], xpos[i+1], ypos[i+1]);
+                for(int i=0;i<xpos.size();i++){
+                    g.drawLine(xpos.get(i), ypos.get(i), xposakt.get(i), yposakt.get(i));
                 }
             
                 break;

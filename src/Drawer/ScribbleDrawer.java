@@ -9,6 +9,7 @@ import CommandClasses.CDrawReceiver;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import mydraw.ShapeDrawer;
 import mydraw.ZeichenPanel;
 
@@ -21,22 +22,23 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
     ZeichenPanel gui;
     Graphics g;
 
-    int[] xpos = new int[99999];
-    int[] ypos = new int[99999];
+    ArrayList<Integer> xpos = new ArrayList();
+    ArrayList<Integer> ypos = new ArrayList();
+    ArrayList<Integer> xposakt = new ArrayList();
+    ArrayList<Integer> yposakt = new ArrayList();
 
     public ScribbleDrawer(ZeichenPanel gui) {
         this.gui = gui;
     }
 
     int lastx, lasty;
-    int i = 0;
 
     public void mousePressed(MouseEvent e) {
         lastx = e.getX();
         lasty = e.getY();
-        xpos[i] = e.getX();
-        ypos[i] = e.getY();
-        i++;
+        xpos.add(e.getX());
+        ypos.add(e.getY());
+
     }
 
     public void mouseDragged(MouseEvent e) {
@@ -51,21 +53,23 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
         g.setPaintMode();
         g1.setPaintMode();
 
-        g.drawLine(lastx, lasty, x, y);
+       // g.drawLine(lastx, lasty, x, y);
         //g1.drawLine(lastx, lasty, x, y);
-        xpos[i] = x;
-        ypos[i] = x;
+        xpos.add(lastx);
+        ypos.add(lasty);
+        xposakt.add(x);
+        yposakt.add(y);
 
         lastx = x;
         lasty = y;
-        i++;
+       
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-       
-        CDrawReceiver drawable = new CDrawReceiver(xpos,ypos, gui.color, "Scribble");
+
+        CDrawReceiver drawable = new CDrawReceiver(xpos, ypos, xposakt,yposakt,gui.color, "Scribble");
         gui.getCommmandList().add(drawable);
 
     }
