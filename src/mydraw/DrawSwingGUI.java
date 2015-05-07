@@ -44,7 +44,6 @@ public class DrawSwingGUI extends JFrame {
     JPanel auswahlpanel = new JPanel();
     ZeichenPanel zeichenpanel = new ZeichenPanel(400, 300);
 
-    
     private ConcurrentHashMap<String, Color> colorhashtable = new ConcurrentHashMap<>();
     private ConcurrentHashMap<String, GeneralDrawer> drawerhastable = new ConcurrentHashMap<>();
 
@@ -60,7 +59,6 @@ public class DrawSwingGUI extends JFrame {
         Color fgcolor = zeichenpanel.color;
         String fgc = null;
 
-        
         Enumeration e = colorhashtable.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
@@ -88,7 +86,7 @@ public class DrawSwingGUI extends JFrame {
         }
     }
 //soweit alles fertig
-    
+
     public JComboBox getColor_chooser() {
         return color_chooser;
     }
@@ -165,7 +163,7 @@ public class DrawSwingGUI extends JFrame {
         colorhashtable.put("Green", Color.GREEN);
         colorhashtable.put("Red", Color.RED);
         colorhashtable.put("Blue", Color.BLUE);
-      
+      //  colorhashtable.put("white", Color.white);
     }
 
     public void initDrawers() {

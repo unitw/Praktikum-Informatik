@@ -66,6 +66,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         doDraw(pressx, pressy, e.getX(), e.getY(), g1);
         CDrawReceiver drawable = new CDrawReceiver(rect, gui.color, "Rectangle");
         gui.getCommmandList().add(drawable);
+        gui.drawCommandList();
     }
 
     // mouse released => temporarily set second corner of rectangle

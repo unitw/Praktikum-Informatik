@@ -68,7 +68,8 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
 
         CDrawReceiver drawable = new CDrawReceiver(xpos, ypos, xposakt, yposakt, gui.color, "Scribble");
         gui.getCommmandList().add(drawable);
-
+        gui.drawCommandList();
+        
     }
 
     public void doDraw(int x0, int y0, int x1, int y1, Graphics g) {

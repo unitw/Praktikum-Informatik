@@ -19,7 +19,8 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
     public OvalDrawer(ZeichenPanel gui) {
         super(gui);
     }
-     public void mousePressed(MouseEvent e) {
+
+    public void mousePressed(MouseEvent e) {
         pressx = e.getX();
         pressy = e.getY();
     }
@@ -51,8 +52,9 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
         // draw the finel rectangle
         doDraw(pressx, pressy, e.getX(), e.getY(), g);
         doDraw(pressx, pressy, e.getX(), e.getY(), g1);
-        CDrawReceiver drawable = new CDrawReceiver( pressx, pressy, e.getX(), e.getY(), gui.color, "Oval");
+        CDrawReceiver drawable = new CDrawReceiver(pressx, pressy, e.getX(), e.getY(), gui.color, "Oval");
         gui.getCommmandList().add(drawable);
+        gui.drawCommandList();
     }
 
     // mouse released => temporarily set second corner of rectangle
@@ -79,7 +81,6 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
         // draw new rubber rect
         doDraw(pressx, pressy, lastx, lasty, g);
         doDraw(pressx, pressy, lastx, lasty, g1);
-       
 
     }
 
@@ -91,6 +92,6 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
         int h = Math.abs(y1 - y0);
         // draw oval instead of rectangle
         // g.drawOval(x, y, w, h);
-       
+
     }
 }

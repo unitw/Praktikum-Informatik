@@ -58,6 +58,7 @@ public class CDrawReceiver implements Drawer {
             case "Rectangle":
                 g.setColor(c);
                 g.drawRect(rect.x, rect.y, rect.width, rect.height);
+                
                 break;
             case "Oval":
                 g.setColor(c);
@@ -66,6 +67,7 @@ public class CDrawReceiver implements Drawer {
                 break;
             case "Scribble":
                 g.setColor(c);
+               
                 for (int i = 0; i < xpos.size(); i++) {
                     g.drawLine(xpos.get(i), ypos.get(i), xposakt.get(i), yposakt.get(i));
                 }
