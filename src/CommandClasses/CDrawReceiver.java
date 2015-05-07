@@ -5,15 +5,11 @@
  */
 package CommandClasses;
 
-import Drawer.RectangleDrawer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import mydraw.Draw;
-import mydraw.ZeichenPanel;
 
 /**
  *
@@ -29,31 +25,25 @@ public class CDrawReceiver implements Drawer {
     ArrayList<Integer> xpos;
     ArrayList<Integer> ypos;
 
-    
     ArrayList<Integer> xposakt;
     ArrayList<Integer> yposakt;
 
-    
     public CDrawReceiver(Rectangle rect, Color c, String s) {
         this.rect = rect;
         this.c = c;
         this.s = s;
     }
 
-    public CDrawReceiver(ArrayList xpos, ArrayList ypos,ArrayList xposakt,ArrayList yposakt, Color c, String s) {
-       
-        this.xpos=xpos;
-        this.ypos=ypos;
-        this.xposakt=xposakt;
-        this.yposakt=ypos;
-        
+    public CDrawReceiver(ArrayList xpos, ArrayList ypos, ArrayList xposakt, ArrayList yposakt, Color c, String s) {
+        this.xpos = xpos;
+        this.ypos = ypos;
+        this.xposakt = xposakt;
+        this.yposakt = ypos;
         this.c = c;
         this.s = s;
-
     }
 
     public CDrawReceiver(int x, int y, int w, int h, Color c, String s) {
-
         this.x = x;
         this.y = y;
         this.w = w;
@@ -76,11 +66,10 @@ public class CDrawReceiver implements Drawer {
                 break;
             case "Scribble":
                 g.setColor(c);
-                
-                for(int i=0;i<xpos.size();i++){
+                for (int i = 0; i < xpos.size(); i++) {
                     g.drawLine(xpos.get(i), ypos.get(i), xposakt.get(i), yposakt.get(i));
                 }
-            
+
                 break;
 
         }

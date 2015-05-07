@@ -16,10 +16,10 @@ import javax.swing.JPanel;
  */
 public class ColorItemListener implements ItemListener {
 
-    ZeichenPanel pan;
+    Zeichenpanel pan;
     DrawSwingGUI gui;
 
-    public ColorItemListener(DrawSwingGUI gui, ZeichenPanel pan) {
+    public ColorItemListener(DrawSwingGUI gui, Zeichenpanel pan) {
         this.gui = gui;
         this.pan = pan;
     }

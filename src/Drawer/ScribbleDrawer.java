@@ -11,7 +11,7 @@ import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import mydraw.ShapeDrawer;
-import mydraw.ZeichenPanel;
+import mydraw.Zeichenpanel;
 
 /**
  *
@@ -19,7 +19,7 @@ import mydraw.ZeichenPanel;
  */
 public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
 
-    ZeichenPanel gui;
+    Zeichenpanel gui;
     Graphics g;
 
     ArrayList<Integer> xpos = new ArrayList();
@@ -27,7 +27,7 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
     ArrayList<Integer> xposakt = new ArrayList();
     ArrayList<Integer> yposakt = new ArrayList();
 
-    public ScribbleDrawer(ZeichenPanel gui) {
+    public ScribbleDrawer(Zeichenpanel gui) {
         this.gui = gui;
     }
 
@@ -36,16 +36,19 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
     public void mousePressed(MouseEvent e) {
         lastx = e.getX();
         lasty = e.getY();
-        xpos.add(e.getX());
-        ypos.add(e.getY());
-
+       
     }
 
     public void mouseDragged(MouseEvent e) {
         g = gui.getGraphics();
         Graphics g1 = gui.getImage().getGraphics();
 
+        xpos.add(lastx);
+        ypos.add(lasty);
+
         int x = e.getX(), y = e.getY();
+        xposakt.add(x);
+        yposakt.add(y);
 
         g.setColor(gui.color);
         g1.setColor(gui.color);
@@ -53,23 +56,17 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
         g.setPaintMode();
         g1.setPaintMode();
 
-       // g.drawLine(lastx, lasty, x, y);
+        // g.drawLine(lastx, lasty, x, y);
         //g1.drawLine(lastx, lasty, x, y);
-        xpos.add(lastx);
-        ypos.add(lasty);
-        xposakt.add(x);
-        yposakt.add(y);
-
         lastx = x;
         lasty = y;
-       
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        CDrawReceiver drawable = new CDrawReceiver(xpos, ypos, xposakt,yposakt,gui.color, "Scribble");
+        CDrawReceiver drawable = new CDrawReceiver(xpos, ypos, xposakt, yposakt, gui.color, "Scribble");
         gui.getCommmandList().add(drawable);
 
     }

@@ -8,7 +8,7 @@ package Drawer;
 import CommandClasses.CDrawReceiver;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import mydraw.ZeichenPanel;
+import mydraw.Zeichenpanel;
 
 /**
  *
@@ -16,7 +16,7 @@ import mydraw.ZeichenPanel;
  */
 public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
 
-    public OvalDrawer(ZeichenPanel gui) {
+    public OvalDrawer(Zeichenpanel gui) {
         super(gui);
     }
      public void mousePressed(MouseEvent e) {
