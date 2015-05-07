@@ -250,9 +250,12 @@ public class Draw {
         points.add(new Point(100, 200));
         points.add(new Point(300, 200));
 
-        drawOval(new Point(0, 5), new Point(100, 100));
-        drawRectangle(new Point(200, 0), new Point(100, 100));
-        drawPolyLine(points);
+        
+        gui.getZeichenpanel().drawCommandList();
+        
+//        drawOval(new Point(0, 5), new Point(100, 100));
+//        drawRectangle(new Point(200, 0), new Point(100, 100));
+//        drawPolyLine(points);
 
     }
 

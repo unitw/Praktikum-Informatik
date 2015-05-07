@@ -64,6 +64,8 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         // draw the finel rectangle
         doDraw(pressx, pressy, e.getX(), e.getY(), g);
         doDraw(pressx, pressy, e.getX(), e.getY(), g1);
+        CDrawReceiver drawable = new CDrawReceiver(rect, gui.color, "Rectangle");
+        gui.getCommmandList().add(drawable);
     }
 
     // mouse released => temporarily set second corner of rectangle
@@ -90,6 +92,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         // draw new rubber rect
         doDraw(pressx, pressy, lastx, lasty, g);
         doDraw(pressx, pressy, lastx, lasty, g1);
+
     }
 
     @Override
@@ -104,9 +107,6 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         //g.drawRect(x, y, w, h);
         rect = new Rectangle(x, y, w, h);
 
-        CDrawReceiver drawable = new CDrawReceiver(rect, g.getColor(), "Rectangle");
-
-        gui.getCommmandList().add(drawable);
     }
 
     @Override

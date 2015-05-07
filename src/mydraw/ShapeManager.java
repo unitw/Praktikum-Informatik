@@ -26,13 +26,13 @@ public class ShapeManager implements ItemListener {
     ShapeDrawer currentDrawer;
 
     public ShapeManager(DrawSwingGUI drwing, ZeichenPanel itsGui) {
-        ScribbleDrawer scribbleDrawer = new ScribbleDrawer(gui);
+        
         gui = itsGui;
 
         this.drwing = drwing;
 
 // default: scribble mode
-        currentDrawer = scribbleDrawer;
+        currentDrawer = (ShapeDrawer) drwing.getdrawerHashtable().get("Scribble");
         // activate scribble drawer
         gui.addMouseListener(currentDrawer);
         gui.addMouseMotionListener(currentDrawer);

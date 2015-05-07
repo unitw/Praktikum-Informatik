@@ -52,8 +52,7 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
         g1.setPaintMode();
 
         g.drawLine(lastx, lasty, x, y);
-        g1.drawLine(lastx, lasty, x, y);
-
+        //g1.drawLine(lastx, lasty, x, y);
         xpos[i] = x;
         ypos[i] = x;
 
@@ -65,13 +64,10 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Polygon poly = new Polygon();
-        for (int i = 0; i < xpos.length; i++) {
-            poly.addPoint(xpos[i], ypos[i]);
-
-        }
-        CDrawReceiver drawable = new CDrawReceiver(poly, g.getColor(), "Scribble");
+       
+        CDrawReceiver drawable = new CDrawReceiver(xpos,ypos, gui.color, "Scribble");
         gui.getCommmandList().add(drawable);
+
     }
 
     public void doDraw(int x0, int y0, int x1, int y1, Graphics g) {

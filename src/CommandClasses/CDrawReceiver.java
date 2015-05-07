@@ -25,6 +25,8 @@ public class CDrawReceiver implements Drawer {
     Polygon poly = null;
     Color c = null;
     int x, y, w, h;
+    int[] xpos;
+    int[] ypos;
 
     public CDrawReceiver(Rectangle rect, Color c, String s) {
         this.rect = rect;
@@ -32,9 +34,9 @@ public class CDrawReceiver implements Drawer {
         this.s = s;
     }
 
-    public CDrawReceiver(Polygon poly, Color c, String s) {
-
-        this.poly = poly;
+    public CDrawReceiver(int[] x, int[] y, Color c, String s) {
+        this.xpos = x;
+        this.ypos = y;
         this.c = c;
         this.s = s;
 
@@ -64,7 +66,11 @@ public class CDrawReceiver implements Drawer {
                 break;
             case "Scribble":
                 g.setColor(c);
-                g.drawPolygon(poly);
+                
+                for(int i=0;i<xpos.length;i++){
+                    g.drawLine(xpos[i], ypos[i], xpos[i+1], ypos[i+1]);
+                }
+            
                 break;
 
         }
