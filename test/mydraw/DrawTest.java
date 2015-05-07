@@ -131,9 +131,9 @@ public class DrawTest {
     public void testGetFGColor() {
         System.out.println("getFGColor");
 
-        Draw drawtest = new Draw(100, 0,  "white", "black");
+        Draw drawtest = new Draw(100, 0,  "White", "Black");
 
-        String expResult = "black";
+        String expResult = "Black";
         String result = drawtest.getFGColor();
         assertEquals(expResult, result);
         assertFalse("0".equals(result));
@@ -145,7 +145,7 @@ public class DrawTest {
     @Test
     public void testSetBgColor() throws Exception {
         System.out.println("setBgColor");
-        Draw drawtest = new Draw(0, 0,  "white", "black");
+        Draw drawtest = new Draw(0, 0,  "White", "Black");
         String expResult = "Red";
 
         String new_Color = "Red";
@@ -162,8 +162,8 @@ public class DrawTest {
     @Test
     public void testGetBgColor() {
         System.out.println("getBgColor");
-        Draw drawtest = new Draw(0, 0,  "white", "black");
-        String expResult = "white";
+        Draw drawtest = new Draw(0, 0,  "White", "Black");
+        String expResult = "White";
         String result = drawtest.getBgColor();
 
         assertEquals(expResult, result);

@@ -16,7 +16,9 @@ public class ColorException extends Exception{
       //Constructor that accepts a message
       public ColorException(String message)
       {
-         super(message);
+       
+          
+          super(message);
          
       }
     
