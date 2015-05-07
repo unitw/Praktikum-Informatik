@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import mydraw.ShapeDrawer;
-import mydraw.Zeichenpanel;
+import mydraw.ZeichenPanel;
 
 /**
  *
@@ -19,10 +19,10 @@ import mydraw.Zeichenpanel;
  */
 public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawer {
 
-    Zeichenpanel gui;
+    ZeichenPanel gui;
     Graphics g;
 
-    public RectangleDrawer(Zeichenpanel gui) {
+    public RectangleDrawer(ZeichenPanel gui) {
         this.gui = gui;
     }
 

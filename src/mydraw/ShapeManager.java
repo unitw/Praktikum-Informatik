@@ -19,13 +19,13 @@ import java.awt.event.ItemListener;
  */
 public class ShapeManager implements ItemListener {
 
-    Zeichenpanel gui;
+    ZeichenPanel gui;
     DrawSwingGUI drwing;
     // if this class is active, the mouse is interpreted as a pen
     // if this class is active, ovals are drawn
     ShapeDrawer currentDrawer;
 
-    public ShapeManager(DrawSwingGUI drwing, Zeichenpanel itsGui) {
+    public ShapeManager(DrawSwingGUI drwing, ZeichenPanel itsGui) {
         
         gui = itsGui;
 

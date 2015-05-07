@@ -11,7 +11,7 @@ import java.awt.Polygon;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import mydraw.ShapeDrawer;
-import mydraw.Zeichenpanel;
+import mydraw.ZeichenPanel;
 
 /**
  *
@@ -19,7 +19,7 @@ import mydraw.Zeichenpanel;
  */
 public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
 
-    Zeichenpanel gui;
+    ZeichenPanel gui;
     Graphics g;
 
     ArrayList<Integer> xpos = new ArrayList();
@@ -27,7 +27,7 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
     ArrayList<Integer> xposakt = new ArrayList();
     ArrayList<Integer> yposakt = new ArrayList();
 
-    public ScribbleDrawer(Zeichenpanel gui) {
+    public ScribbleDrawer(ZeichenPanel gui) {
         this.gui = gui;
     }
 

@@ -42,7 +42,7 @@ public class DrawSwingGUI extends JFrame {
     JButton buttonquit = new JButton("Quit");
     JButton buttonclear = new JButton("Clear");
     JPanel auswahlpanel = new JPanel();
-    Zeichenpanel zeichenpanel = new Zeichenpanel(400, 300);
+    ZeichenPanel zeichenpanel = new ZeichenPanel(400, 300);
 
     
     private ConcurrentHashMap<String, Color> colorhashtable = new ConcurrentHashMap<>();
@@ -105,11 +105,11 @@ public class DrawSwingGUI extends JFrame {
         this.auswahlpanel = auswahlpanel;
     }
 
-    public Zeichenpanel getZeichenpanel() {
+    public ZeichenPanel getZeichenpanel() {
         return zeichenpanel;
     }
 
-    public void setZeichenpanel(Zeichenpanel zeichenpanel) {
+    public void setZeichenpanel(ZeichenPanel zeichenpanel) {
         this.zeichenpanel = zeichenpanel;
     }
 
@@ -165,10 +165,7 @@ public class DrawSwingGUI extends JFrame {
         colorhashtable.put("Green", Color.GREEN);
         colorhashtable.put("Red", Color.RED);
         colorhashtable.put("Blue", Color.BLUE);
-        colorhashtable.put("black", Color.BLACK);
-        colorhashtable.put("green", Color.GREEN);
-        colorhashtable.put("red", Color.RED);
-        colorhashtable.put("blue", Color.BLUE);
+      
     }
 
     public void initDrawers() {
