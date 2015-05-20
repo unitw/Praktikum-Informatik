@@ -5,10 +5,13 @@
  */
 package CommandClasses;
 
+import Drawer.CDrawLine;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 /**
@@ -21,12 +24,36 @@ public class CDrawReceiver implements Drawer {
     Rectangle rect = null;
     Polygon poly = null;
     Color c = null;
-    int x, y, w, h;
-    ArrayList<Integer> xpos;
-    ArrayList<Integer> ypos;
 
-    ArrayList<Integer> xposakt;
-    ArrayList<Integer> yposakt;
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getW() {
+        return w;
+    }
+
+    public int getH() {
+        return h;
+    }
+    int x, y, w, h;
+    Ellipse2D oval;
+    ArrayList<CDrawLine> lines;
+    Image img;
+
+    private boolean paintable;
+
+    public boolean isPaintable() {
+        return paintable;
+    }
+
+    public void setPaintable(boolean paintable) {
+        this.paintable = paintable;
+    }
 
     public CDrawReceiver(Rectangle rect, Color c, String s) {
         this.rect = rect;
@@ -34,21 +61,22 @@ public class CDrawReceiver implements Drawer {
         this.s = s;
     }
 
-    public CDrawReceiver(ArrayList xpos, ArrayList ypos, ArrayList xposakt, ArrayList yposakt, Color c, String s) {
-        this.xpos = xpos;
-        this.ypos = ypos;
-        this.xposakt = xposakt;
-        this.yposakt = ypos;
+    public CDrawReceiver(ArrayList lines, Color c, String s) {
+        this.lines = lines;
         this.c = c;
         this.s = s;
     }
 
-    public CDrawReceiver(int x, int y, int w, int h, Color c, String s) {
+    public CDrawReceiver(Ellipse2D oval, Color c, String s) {
+        this.oval = oval;
+        this.c = c;
+        this.s = s;
+    }
+
+    public CDrawReceiver(Image img, int x, int y, String s) {
+        this.img = img;
         this.x = x;
         this.y = y;
-        this.w = w;
-        this.h = h;
-        this.c = c;
         this.s = s;
     }
 
@@ -58,22 +86,21 @@ public class CDrawReceiver implements Drawer {
             case "Rectangle":
                 g.setColor(c);
                 g.drawRect(rect.x, rect.y, rect.width, rect.height);
-                
+
                 break;
             case "Oval":
                 g.setColor(c);
-                g.drawOval(x, y, w, h);
+                g.drawOval((int) oval.getX(), (int) oval.getY(), (int) oval.getWidth(), (int) oval.getHeight());
 
                 break;
             case "Scribble":
                 g.setColor(c);
-               
-                for (int i = 0; i < xpos.size(); i++) {
-                    g.drawLine(xpos.get(i), ypos.get(i), xposakt.get(i), yposakt.get(i));
+                for (CDrawLine line : lines) {
+                    g.drawLine(line.getX(), line.getY(), line.getXakt(), line.getYakt());
                 }
-
                 break;
-
+            case "Smiley":
+                g.drawImage(img, x, y, null);
         }
 
     }

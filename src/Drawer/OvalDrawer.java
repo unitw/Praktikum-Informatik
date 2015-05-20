@@ -6,8 +6,10 @@
 package Drawer;
 
 import CommandClasses.CDrawReceiver;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
 import mydraw.ZeichenPanel;
 
 /**
@@ -19,11 +21,14 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
     public OvalDrawer(ZeichenPanel gui) {
         super(gui);
     }
+    CDrawReceiver drawable = null;
 
     public void mousePressed(MouseEvent e) {
         pressx = e.getX();
         pressy = e.getY();
     }
+    Ellipse2D oval;
+    CDrawReceiver clear;
 
     // mouse released => fix second corner of rectangle
     // and draw the resulting shape
@@ -52,8 +57,18 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
         // draw the finel rectangle
         doDraw(pressx, pressy, e.getX(), e.getY(), g);
         doDraw(pressx, pressy, e.getX(), e.getY(), g1);
-        CDrawReceiver drawable = new CDrawReceiver(pressx, pressy, e.getX(), e.getY(), gui.color, "Oval");
-        gui.getCommmandList().add(drawable);
+
+        if (drawable != null) {
+            gui.getCommmandList().remove(drawable);
+            gui.getCommmandList().size();
+
+        } else {
+            return;
+        }
+
+        CDrawReceiver drawfinal = new CDrawReceiver(oval, gui.color, "Oval");
+        gui.getCommmandList().add(drawfinal);
+
         gui.drawCommandList();
     }
 
@@ -82,6 +97,19 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
         doDraw(pressx, pressy, lastx, lasty, g);
         doDraw(pressx, pressy, lastx, lasty, g1);
 
+        if (drawable != null) {
+
+            gui.getCommmandList().remove(drawable);
+            gui.getCommmandList().size();
+            gui.repaint();
+
+        }
+        drawable = new CDrawReceiver(oval, gui.color, "Oval");
+
+        gui.getCommmandList().add(drawable);
+
+        gui.drawCommandList();
+
     }
 
     @Override
@@ -91,7 +119,8 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
         int w = Math.abs(x1 - x0);
         int h = Math.abs(y1 - y0);
         // draw oval instead of rectangle
-        // g.drawOval(x, y, w, h);
+        //g.drawOval(x, y, w, h);
+        oval = new Ellipse2D.Double(x, y, w, h);
 
     }
 }

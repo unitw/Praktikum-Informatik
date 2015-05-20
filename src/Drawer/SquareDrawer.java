@@ -6,7 +6,6 @@
 package Drawer;
 
 import CommandClasses.CDrawReceiver;
-import CommandClasses.Drawer;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -15,14 +14,14 @@ import mydraw.ZeichenPanel;
 
 /**
  *
- * @author 3welge
+ * @author 3flim
  */
-public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawer {
+public class SquareDrawer extends ShapeDrawer implements GeneralDrawer {
 
     ZeichenPanel gui;
     Graphics g;
 
-    public RectangleDrawer(ZeichenPanel gui) {
+    public SquareDrawer(ZeichenPanel gui) {
         this.gui = gui;
     }
     CDrawReceiver drawable = null;
@@ -69,7 +68,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
             gui.getCommmandList().size();
         }
         CDrawReceiver drawfinal = new CDrawReceiver(rect, gui.color, "Rectangle");
-        
+
         gui.getCommmandList().add(drawfinal);
 
         gui.drawCommandList();
@@ -106,7 +105,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
             gui.getCommmandList().size();
             gui.repaint();
         }
-       drawable = new CDrawReceiver(rect, gui.color, "Rectangle");
+        drawable = new CDrawReceiver(rect, gui.color, "Rectangle");
 
         gui.getCommmandList().add(drawable);
 
@@ -124,13 +123,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         // draw rectangle
 
         //g.drawRect(x, y, w, h);
-        rect = new Rectangle(x, y, w, h);
-
-    }
-
-    @Override
-    public void draw(Graphics g) {
-      //  g.drawRect(rect.x, rect.y, rect.width, rect.height);
+        rect = new Rectangle(x, y, w, w);
 
     }
 

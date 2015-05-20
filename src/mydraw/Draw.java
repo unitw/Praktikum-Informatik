@@ -48,23 +48,7 @@ public class Draw {
         gui = new DrawSwingGUI();
 
         JButton automal = new JButton("Auto malen");
-        JButton save = new JButton("Save");
-        save.setPreferredSize(new Dimension(100, 25));
-        save.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-
-                String filename = new String("TestBild");
-
-                try {
-
-                    Draw.this.writeImage(filename);
-                } catch (IOException ex) {
-                    Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
         automal.setPreferredSize(new Dimension(100, 25));
         automal.addActionListener(new ActionListener() {
 
@@ -86,14 +70,13 @@ public class Draw {
 
             }
         });
-        gui.setSize(600, 400);
+        gui.setSize(950, 400);
         gui.setLocationRelativeTo(null);
         gui.auswahlpanel.add(automal);
 
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setVisible(true);
-
-        gui.auswahlpanel.add(save);
+      
 
     }
 
@@ -250,18 +233,15 @@ public class Draw {
         points.add(new Point(100, 200));
         points.add(new Point(300, 200));
 
-        
         gui.getZeichenpanel().drawCommandList();
-        
+
 //        drawOval(new Point(0, 5), new Point(100, 100));
 //        drawRectangle(new Point(200, 0), new Point(100, 100));
 //        drawPolyLine(points);
-
     }
 
     public void writeImage(String Filename) throws IOException {
 
-        gui.zeichenpanel.saveImage(Filename, "png");
-
+//        gui.zeichenpanel.saveImage(Filename, "png");
     }
 }

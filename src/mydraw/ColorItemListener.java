@@ -18,15 +18,23 @@ public class ColorItemListener implements ItemListener {
 
     ZeichenPanel pan;
     DrawSwingGUI gui;
+    String Mode;
 
-    public ColorItemListener(DrawSwingGUI gui, ZeichenPanel pan) {
+    public ColorItemListener(DrawSwingGUI gui, ZeichenPanel pan, String Mode) {
+        this.Mode = Mode;
+
         this.gui = gui;
         this.pan = pan;
     }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        pan.color = (Color) gui.getColorHashtable().get(e.getItem().toString());
 
+        if (Mode.equals("For")) {
+            pan.color = (Color) gui.getColorHashtable().get(e.getItem().toString());
+        }
+        if (Mode.equals("Back")) {
+            pan.setBackground((Color) gui.getColorHashtable().get(e.getItem().toString()));
+        }
     }
 }

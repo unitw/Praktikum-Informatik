@@ -8,30 +8,31 @@ package Drawer;
 import CommandClasses.CDrawReceiver;
 import CommandClasses.Drawer;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import static javafx.scene.paint.Color.color;
 import mydraw.ShapeDrawer;
 import mydraw.ZeichenPanel;
 
 /**
  *
- * @author 3welge
+ * @author 3flim
  */
-public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawer {
+public class TriangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawer {
 
     ZeichenPanel gui;
     Graphics g;
 
-    public RectangleDrawer(ZeichenPanel gui) {
+    ArrayList<CDrawLine> lines = new ArrayList();
+
+    public TriangleDrawer(ZeichenPanel gui) {
         this.gui = gui;
     }
-    CDrawReceiver drawable = null;
+    CDrawReceiver drawable;
     int pressx, pressy;
     int lastx = -1, lasty = -1;
 
-    public Rectangle rect;
-
-    // mouse pressed => fix first corner of rectangle
     public void mousePressed(MouseEvent e) {
         pressx = e.getX();
         pressy = e.getY();
@@ -64,14 +65,16 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         // draw the finel rectangle
         doDraw(pressx, pressy, e.getX(), e.getY(), g);
         doDraw(pressx, pressy, e.getX(), e.getY(), g1);
+        
+        
         if (drawable != null) {
             gui.getCommmandList().remove(drawable);
             gui.getCommmandList().size();
         }
-        CDrawReceiver drawfinal = new CDrawReceiver(rect, gui.color, "Rectangle");
         
+        
+        CDrawReceiver drawfinal = new CDrawReceiver(lines, gui.color, "Scribble");
         gui.getCommmandList().add(drawfinal);
-
         gui.drawCommandList();
     }
 
@@ -106,13 +109,15 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
             gui.getCommmandList().size();
             gui.repaint();
         }
-       drawable = new CDrawReceiver(rect, gui.color, "Rectangle");
-
+        drawable = new CDrawReceiver(lines, gui.color, "Scribble");
         gui.getCommmandList().add(drawable);
-
         gui.drawCommandList();
 
     }
+
+    CDrawLine l1 = null;
+    CDrawLine l2 = null;
+    CDrawLine l3 = null;
 
     @Override
     public void doDraw(int x0, int y0, int x1, int y1, Graphics g) {
@@ -123,15 +128,31 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         int h = Math.abs(y1 - y0);
         // draw rectangle
 
-        //g.drawRect(x, y, w, h);
-        rect = new Rectangle(x, y, w, h);
+        g.setColor(gui.color);
+
+        Point point2 = new Point(x0 + w, y0);
+
+        Point point3 = new Point(x0 + (w / 2), y0 - h);
+
+        if (!lines.isEmpty()) {
+            lines.remove(l1);
+            lines.remove(l2);
+            lines.remove(l3);
+        }
+
+        l1 = new CDrawLine(x0, y0, point2.x, point2.y);
+        l2 = new CDrawLine(x0, y0, point3.x, point3.y);
+        l3 = new CDrawLine(point2.x, point2.y, point3.x, point3.y);
+
+        lines.add(l1);
+        lines.add(l2);
+        lines.add(l3);
 
     }
 
     @Override
     public void draw(Graphics g) {
-      //  g.drawRect(rect.x, rect.y, rect.width, rect.height);
-
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
