@@ -9,18 +9,24 @@ import CommandClasses.CDrawReceiver;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -43,8 +49,36 @@ public class ZeichenPanel extends JPanel implements KeyListener {
     }
 
     public ZeichenPanel(int w, int h) {
-
         this.addKeyListener(this);
+
+        Action action = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Undo();
+            }
+        };
+        String keyStrokeAndKey = "control Z";
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(keyStrokeAndKey);
+        this.getInputMap().put(keyStroke, keyStrokeAndKey);
+        this.getActionMap().put(keyStrokeAndKey, action);
+
+        Action action1 = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Redo();
+            }
+        };
+        String keyStrokeAndKey1 = "control Y";
+        KeyStroke keyStroke1 = KeyStroke.getKeyStroke(keyStrokeAndKey1);
+        this.getInputMap().put(keyStroke1, keyStrokeAndKey1);
+        this.getActionMap().put(keyStrokeAndKey1, action1);
+
+        this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        this.setFocusable(true);
+        this.requestFocusInWindow();
 
         this.w = w;
         this.h = h;
@@ -57,6 +91,10 @@ public class ZeichenPanel extends JPanel implements KeyListener {
 
     public void clear() {
         this.setBackground(color.white);
+        
+       commmandList= new ArrayList();
+        
+        
         this.repaint();
 
     }
@@ -95,16 +133,14 @@ public class ZeichenPanel extends JPanel implements KeyListener {
 
     }
 
-    public void drawCommandList() {
-        for (int i = 0; i < this.getCommmandList().size(); i++) {
-            CDrawReceiver dr = (CDrawReceiver) this.getCommmandList().get(i);
-
-            if (dr.isPaintable()) {
-                dr.draw(this.getGraphics());
-            }
-        }
-    }
-
+//    public void drawCommandList() {
+//        for (int i = 0; i < this.getCommmandList().size(); i++) {
+//            CDrawReceiver dr = (CDrawReceiver) this.getCommmandList().get(i);
+//
+//            dr.draw(this.getGraphics());
+//
+//        }
+//    }
     public void drawCommandListonImg() {
         for (int i = 0; i < this.getCommmandList().size(); i++) {
             CDrawReceiver dr = (CDrawReceiver) this.getCommmandList().get(i);
@@ -117,62 +153,92 @@ public class ZeichenPanel extends JPanel implements KeyListener {
 
         super.paintComponent(g);
 
-        if (getCommmandList() != null) {
-            this.drawCommandList();
+        Graphics2D g2d = (Graphics2D) g.create();
+        for (int i = 0; i < this.getCommmandList().size(); i++) {
+            CDrawReceiver dr = (CDrawReceiver) this.getCommmandList().get(i);
+            if (dr != null) {
+                dr.draw(g2d);
+            }
         }
+        g2d.dispose();
+
     }
 
     @Override
     public void repaint() {
         super.repaint();
+    }
 
-        if (getCommmandList() != null) {
-            this.drawCommandList();
+    Stack<CDrawReceiver> undo = new Stack();
+
+    public void Undo() {
+
+        
+        
+         if(getCommmandList().isEmpty()){
+             try {
+                throw new DrawListException();
+            } catch (DrawListException ex) {
+               System.err.println("Keine Elemente mehr da");
+               return;
+            }
         }
+        
+        CDrawReceiver drawre = (CDrawReceiver) getCommmandList().get(getCommmandList().size() - 1);
 
+        getCommmandList().remove(drawre);
+
+        undo.push(drawre);
+
+        repaint();
+    }
+
+    public void Redo() {
+
+//        if (undo.pop() != null) {
+        CDrawReceiver drawre = null;
+
+//            try {
+//               
+        if(undo.empty()){
+             try {
+                throw new DrawListException();
+            } catch (DrawListException ex) {
+               System.err.println("Stack leer");
+               return;
+            }
+        }
+        drawre = undo.pop();
+        getCommmandList().add(drawre);
+        repaint();
+
+//        }
     }
 
     @Override
-    public void keyTyped(KeyEvent ke) {
-
+    public void keyTyped(KeyEvent e
+    ) {
     }
 
     @Override
-    public void keyPressed(KeyEvent ke) {
+    public void keyReleased(KeyEvent e
+    ) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-        if (KeyEvent.VK_CONTROL == ke.getKeyCode() && KeyEvent.VK_Z == ke.getKeyCode()) {
+    @Override
+    public void keyPressed(KeyEvent ke
+    ) {
+
+        if (KeyEvent.VK_Z == ke.getKeyCode() && (KeyEvent.CTRL_DOWN_MASK) == ke.getKeyCode()) {
+
             Undo();
+
         }
         if (KeyEvent.VK_CONTROL == ke.getKeyCode() && KeyEvent.VK_Y == ke.getKeyCode()) {
             Redo();
         }
 
-    }
-
-    LinkedBlockingQueue<CDrawReceiver> undo = new LinkedBlockingQueue();
-
-    public void Undo() {
-
-        CDrawReceiver drawre = (CDrawReceiver) getCommmandList().get(getCommmandList().size());
-
-        getCommmandList().remove(drawre);
-        try {
-            undo.put(drawre);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ZeichenPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        drawCommandList();
-    }
-
-    public void Redo() {
-
-        CDrawReceiver drawre = undo.poll();
-        drawCommandList();
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent ke) {
     }
 
 }

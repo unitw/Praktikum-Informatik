@@ -69,7 +69,7 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
         CDrawReceiver drawfinal = new CDrawReceiver(oval, gui.color, "Oval");
         gui.getCommmandList().add(drawfinal);
 
-        gui.drawCommandList();
+         gui.repaint();
     }
 
     // mouse released => temporarily set second corner of rectangle
@@ -101,14 +101,14 @@ public class OvalDrawer extends RectangleDrawer implements GeneralDrawer {
 
             gui.getCommmandList().remove(drawable);
             gui.getCommmandList().size();
-            gui.repaint();
+           
 
         }
         drawable = new CDrawReceiver(oval, gui.color, "Oval");
 
         gui.getCommmandList().add(drawable);
 
-        gui.drawCommandList();
+         gui.repaint();
 
     }
 

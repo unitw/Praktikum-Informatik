@@ -55,17 +55,12 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
         lastx = x;
         lasty = y;
 
-        if (drawable != null) {
-
-            gui.getCommmandList().remove(drawable);
-            gui.getCommmandList().size();
-            gui.repaint();
-        }
+       
         drawable = new CDrawReceiver(lines, gui.color, "Scribble");
 
         gui.getCommmandList().add(drawable);
 
-        gui.drawCommandList();
+        gui.repaint();
     }
 
     @Override
@@ -73,7 +68,7 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
 
         CDrawReceiver drawable = new CDrawReceiver(lines, gui.color, "Scribble");
         gui.getCommmandList().add(drawable);
-        gui.drawCommandList();
+        gui.repaint();
 
     }
 

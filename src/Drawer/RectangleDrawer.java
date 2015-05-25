@@ -32,6 +32,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
     public Rectangle rect;
 
     // mouse pressed => fix first corner of rectangle
+    @Override
     public void mousePressed(MouseEvent e) {
         pressx = e.getX();
         pressy = e.getY();
@@ -39,6 +40,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
 
     // mouse released => fix second corner of rectangle
     // and draw the resulting shape
+    @Override
     public void mouseReleased(MouseEvent e) {
         Graphics g = gui.getGraphics();
         Graphics g1 = gui.getImage().getGraphics();
@@ -59,6 +61,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         // these commands finish the rubberband mode
         g.setPaintMode();
         g.setColor(gui.color);
+
         g1.setPaintMode();
         g1.setColor(gui.color);
         // draw the finel rectangle
@@ -66,13 +69,13 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
         doDraw(pressx, pressy, e.getX(), e.getY(), g1);
         if (drawable != null) {
             gui.getCommmandList().remove(drawable);
-            gui.getCommmandList().size();
+           
         }
         CDrawReceiver drawfinal = new CDrawReceiver(rect, gui.color, "Rectangle");
-        
+
         gui.getCommmandList().add(drawfinal);
 
-        gui.drawCommandList();
+        gui.repaint();
     }
 
     // mouse released => temporarily set second corner of rectangle
@@ -102,15 +105,18 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
 
         if (drawable != null) {
 
+          CDrawReceiver  drawable1 = new CDrawReceiver(drawable.getrect(), gui.getBackground(), "Rectangle");
+            gui.getCommmandList().add(drawable1);
+           gui.repaint();
             gui.getCommmandList().remove(drawable);
-            gui.getCommmandList().size();
-            gui.repaint();
+            gui.getCommmandList().remove(drawable1);
+
         }
-       drawable = new CDrawReceiver(rect, gui.color, "Rectangle");
+        drawable = new CDrawReceiver(rect, gui.color, "Rectangle");
 
         gui.getCommmandList().add(drawable);
 
-        gui.drawCommandList();
+       gui.repaint();
 
     }
 
@@ -130,7 +136,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
 
     @Override
     public void draw(Graphics g) {
-      //  g.drawRect(rect.x, rect.y, rect.width, rect.height);
+        //  g.drawRect(rect.x, rect.y, rect.width, rect.height);
 
     }
 

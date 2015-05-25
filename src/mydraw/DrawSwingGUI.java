@@ -22,12 +22,17 @@ import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import static javax.swing.UIManager.put;
 
 /**
  *
@@ -47,8 +52,40 @@ public class DrawSwingGUI extends JFrame {
     JPanel auswahlpanel = new JPanel();
     ZeichenPanel zeichenpanel = new ZeichenPanel(400, 300);
     JButton save = new JButton("Save");
+    JButton  undo = new JButton("Undo");
+    JButton redo = new JButton("Redo");
+    
+    
 
     public final void initGUI() {
+
+        Action action = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                zeichenpanel.Undo();
+            }
+        };
+        String keyStrokeAndKey = "control Z";
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(keyStrokeAndKey);
+        this.getRootPane().getInputMap().put(keyStroke, keyStrokeAndKey);
+        this.getRootPane().getActionMap().put(keyStrokeAndKey, action);
+
+        Action action1 = new AbstractAction() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                zeichenpanel.Redo();
+            }
+        };
+        String keyStrokeAndKey1 = "control Y";
+        KeyStroke keyStroke1 = KeyStroke.getKeyStroke(keyStrokeAndKey1);
+        this.getRootPane().getInputMap().put(keyStroke1, keyStrokeAndKey1);
+        this.getRootPane().getActionMap().put(keyStrokeAndKey1, action1);
+
+        this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        this.setFocusable(true);
         this.setLayout(new BorderLayout());
         fgcolor = Color.BLACK;
         this.setPreferredSize(new Dimension(500, 400));
@@ -63,10 +100,25 @@ public class DrawSwingGUI extends JFrame {
         auswahlpanel.add(buttonclear);
         auswahlpanel.add(buttonquit);
         auswahlpanel.add(save);
+        auswahlpanel.add(undo);
+        auswahlpanel.add(redo);
         zeichenpanel.setBackground(Color.white);
         this.add(auswahlpanel, BorderLayout.NORTH);
         this.add(zeichenpanel, BorderLayout.SOUTH);
 
+        
+        
+        
+        
+        
+        undo.addActionListener(action);
+        redo.addActionListener(action1);
+        
+        
+        
+        
+        
+        
         save.addActionListener(new ActionListener() {
 
             @Override
@@ -219,6 +271,7 @@ public class DrawSwingGUI extends JFrame {
         initDrawers();
         initGUI();
 
+        this.setFocusable(true);
         shape_chooser.addItemListener(new ShapeManager(this, zeichenpanel));
         Forground_color_chooser.addItemListener(new ColorItemListener(this, zeichenpanel, "For"));
         Background_color_chooser.addItemListener(new ColorItemListener(this, zeichenpanel, "Back"));

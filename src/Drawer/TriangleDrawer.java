@@ -75,7 +75,7 @@ public class TriangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawer
         
         CDrawReceiver drawfinal = new CDrawReceiver(lines, gui.color, "Scribble");
         gui.getCommmandList().add(drawfinal);
-        gui.drawCommandList();
+         gui.repaint();
     }
 
     // mouse released => temporarily set second corner of rectangle
@@ -105,13 +105,19 @@ public class TriangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawer
 
         if (drawable != null) {
 
+          CDrawReceiver  drawable1 = new CDrawReceiver(drawable.getlines(), gui.getBackground(), "Scribble");
+            gui.getCommmandList().add(drawable1);
+             gui.repaint();
             gui.getCommmandList().remove(drawable);
-            gui.getCommmandList().size();
-            gui.repaint();
+            gui.getCommmandList().remove(drawable1);
+           
+            
+            
+           
         }
         drawable = new CDrawReceiver(lines, gui.color, "Scribble");
         gui.getCommmandList().add(drawable);
-        gui.drawCommandList();
+          gui.repaint();
 
     }
 

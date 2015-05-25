@@ -47,6 +47,13 @@ public class CDrawReceiver implements Drawer {
 
     private boolean paintable;
 
+    public Rectangle getrect(){
+        return rect;
+    }
+    
+    public ArrayList getlines(){
+        return lines;
+    }
     public boolean isPaintable() {
         return paintable;
     }
@@ -82,8 +89,10 @@ public class CDrawReceiver implements Drawer {
 
     @Override
     public void draw(Graphics g) {
+
         switch (s) {
             case "Rectangle":
+               
                 g.setColor(c);
                 g.drawRect(rect.x, rect.y, rect.width, rect.height);
 
@@ -94,6 +103,9 @@ public class CDrawReceiver implements Drawer {
 
                 break;
             case "Scribble":
+              
+                
+                
                 g.setColor(c);
                 for (CDrawLine line : lines) {
                     g.drawLine(line.getX(), line.getY(), line.getXakt(), line.getYakt());

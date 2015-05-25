@@ -71,7 +71,7 @@ public class SquareDrawer extends ShapeDrawer implements GeneralDrawer {
 
         gui.getCommmandList().add(drawfinal);
 
-        gui.drawCommandList();
+         gui.repaint();
     }
 
     // mouse released => temporarily set second corner of rectangle
@@ -109,7 +109,7 @@ public class SquareDrawer extends ShapeDrawer implements GeneralDrawer {
 
         gui.getCommmandList().add(drawable);
 
-        gui.drawCommandList();
+         gui.repaint();
 
     }
 

@@ -44,7 +44,7 @@ public class PictureDrawer extends ShapeDrawer implements GeneralDrawer {
             drawable = new CDrawReceiver(img, me.getX(), me.getY(), "Smiley");
 
             gui.getCommmandList().add(drawable);
-            gui.drawCommandList();
+             gui.repaint();
 
         } catch (IOException ex) {
             Logger.getLogger(PictureDrawer.class.getName()).log(Level.SEVERE, null, ex);
