@@ -6,6 +6,8 @@
 package mydraw;
 
 import CommandClasses.CDrawReceiver;
+import XML.StaxStore;
+import XML.StaxWriter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -27,12 +29,17 @@ import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 
 /**
  *
  * @author 3flim
  */
-public class ZeichenPanel extends JPanel implements KeyListener {
+public class ZeichenPanel extends JPanel implements KeyListener, StaxStore  {
 
     private int w;
     private int h;
@@ -241,4 +248,78 @@ public class ZeichenPanel extends JPanel implements KeyListener {
 
     }
 
+    
+    
+    
+     @Override
+    public void STAXStore(StaxWriter staxwriter, XMLEventFactory eventFactory) {
+        try {
+            StartElement sElement = eventFactory.createStartElement("", "", "Editor");
+
+            staxwriter.writer.add(sElement);
+
+            for(CDrawReceiver dr: commmandList){
+                dr.STAXStore(staxwriter, eventFactory);
+                
+            }
+            EndElement eElement = eventFactory.createEndElement("", "", "Editor");
+            XMLEvent end = eventFactory.createDTD("\n");
+
+            staxwriter.writer.add(eElement);
+            staxwriter.writer.add(end);
+
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(ZeichenPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+   
+
+    @Override
+    public int getxPos() {
+     return this.getX();
+    }
+
+    @Override
+    public void setxPos(String s) {
+    
+    }
+
+    @Override
+    public int getyPos() {
+    return this.getY();
+    }
+
+    @Override
+    public void setyPos(String s) {
+        
+    }
+
+    @Override
+    public int getbreite() {
+        return this.getWidth();
+    }
+
+    @Override
+    public void setbreite(String s) {
+    }
+
+    @Override
+    public int gethoehe() {
+       return this.getHeight();
+    }
+
+    @Override
+    public void sethoehe(String s) {
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "Zeichenpane";
+    }
+
+    @Override
+    public void setIdentifier(String s) {
+    }
 }

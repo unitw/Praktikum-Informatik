@@ -167,7 +167,7 @@ public class StaxWriter {
 
     }
 
-    public void CreateMultiAttributeNode8(XMLEventWriter eventWriter, String CGSElementname, String name1, String value1, String name2, String value2, String name3, String value3, String name4,String value4, int tabcnt) throws XMLStreamException {
+    public void CreateMultiAttributeNode8(XMLEventWriter eventWriter, String CGSElementname, String name1, String value1, String name2, String value2, String name3, String value3, String name4,String value4,String name5,String value5, int tabcnt) throws XMLStreamException {
 
         XMLEventFactory eventFactory = XMLEventFactory.newInstance();
         XMLEvent zeilenumbruch = eventFactory.createDTD("\n");
@@ -205,7 +205,7 @@ public class StaxWriter {
         eventWriter.add(eventFactory.createAttribute(name2, value2));
         eventWriter.add(eventFactory.createAttribute(name3, value3));
         eventWriter.add(eventFactory.createAttribute(name4, value4));
-//        eventWriter.add(eventFactory.createAttribute(name5, value5));
+        eventWriter.add(eventFactory.createAttribute(name5, value5));
 //        eventWriter.add(eventFactory.createAttribute(name6, value6));
 //        eventWriter.add(eventFactory.createAttribute(name7, value7));
 //        eventWriter.add(eventFactory.createAttribute(name8, value8));

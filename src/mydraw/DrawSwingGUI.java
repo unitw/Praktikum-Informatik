@@ -12,11 +12,16 @@ import Drawer.RectangleDrawer;
 import Drawer.ScribbleDrawer;
 import Drawer.SquareDrawer;
 import Drawer.TriangleDrawer;
+import XML.SaxReader;
+import XML.StaxWriter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,6 +38,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import static javax.swing.UIManager.put;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.events.StartDocument;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  *
@@ -51,11 +66,11 @@ public class DrawSwingGUI extends JFrame {
     JButton buttonclear = new JButton("Clear");
     JPanel auswahlpanel = new JPanel();
     ZeichenPanel zeichenpanel = new ZeichenPanel(400, 300);
-    JButton save = new JButton("Save");
-    JButton  undo = new JButton("Undo");
+    JButton save = new JButton("SaveAsImg");
+    JButton undo = new JButton("Undo");
     JButton redo = new JButton("Redo");
-    
-    
+    JButton xmlsave = new JButton("SaveAsXml");
+    JButton xmlopen = new JButton("Open");
 
     public final void initGUI() {
 
@@ -87,6 +102,83 @@ public class DrawSwingGUI extends JFrame {
 
         this.setFocusable(true);
         this.setLayout(new BorderLayout());
+
+        this.xmlopen.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final JFileChooser fc1 = new JFileChooser("C:/");
+
+                XMLReader xmlReader = null;
+                try {
+                    xmlReader = XMLReaderFactory.createXMLReader();
+                } catch (SAXException ex) {
+                    System.out.println("kein Pfad ausgewählt");
+                }
+                SaxReader stxrd = new SaxReader();
+                int a1 = fc1.showOpenDialog(xmlopen);
+                if (fc1.getSelectedFile().getPath() == null) {
+                    return;
+                }
+                String path1 = fc1.getSelectedFile().getPath();
+                // Pfad zur XML Datei
+                FileReader reader = null;
+                try {
+                    reader = new FileReader(path1);
+                } catch (FileNotFoundException ex) {
+                    System.out.println("kein Pfad ausgewählt");
+                }
+                InputSource inputSource = new InputSource(reader);
+
+                xmlReader.setContentHandler(stxrd);
+                try {
+                    // Parsen wird gestartet
+                    xmlReader.parse(inputSource);
+                } catch (IOException | SAXException ex) {
+                    System.out.println("kein Pfad ausgewählt");
+                }
+
+                zeichenpanel.commmandList = stxrd.elemente;
+
+                System.out.println(path1 + " geoeffnet");
+                zeichenpanel.repaint();
+            }
+        });
+
+        this.xmlsave.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String path = null;
+                try {
+                    StaxWriter staxwriter = new StaxWriter();
+                    final JFileChooser fc = new JFileChooser("C:/");
+                    FileNameExtensionFilter xmlFilter = new FileNameExtensionFilter(
+                            ".xml", ".xml");
+                    fc.setFileFilter(xmlFilter);
+                    int a = fc.showSaveDialog(xmlsave);
+
+                    if (fc.getSelectedFile().getPath() != null) {
+                        path = fc.getSelectedFile().getPath();
+                        if (path.endsWith(path)) {
+                            path = path + ".xml";
+                        }
+                    }
+
+                    if (path != null) {
+                        staxwriter.writer = staxwriter.outputFactory.createXMLEventWriter(
+                                new FileOutputStream(path));
+
+                        StoreProject(staxwriter);
+                    }
+                } catch (Exception ex) {
+                    System.out.println("kein Pfad ausgewählt");
+
+                }
+                System.out.println("Gespeichert in " + path);
+            }
+        });
+
         fgcolor = Color.BLACK;
         this.setPreferredSize(new Dimension(500, 400));
         fgcolor = Color.black;
@@ -100,25 +192,17 @@ public class DrawSwingGUI extends JFrame {
         auswahlpanel.add(buttonclear);
         auswahlpanel.add(buttonquit);
         auswahlpanel.add(save);
+        auswahlpanel.add(xmlsave);
+        auswahlpanel.add(xmlopen);
         auswahlpanel.add(undo);
         auswahlpanel.add(redo);
         zeichenpanel.setBackground(Color.white);
         this.add(auswahlpanel, BorderLayout.NORTH);
         this.add(zeichenpanel, BorderLayout.SOUTH);
 
-        
-        
-        
-        
-        
         undo.addActionListener(action);
         redo.addActionListener(action1);
-        
-        
-        
-        
-        
-        
+
         save.addActionListener(new ActionListener() {
 
             @Override
@@ -279,4 +363,29 @@ public class DrawSwingGUI extends JFrame {
 
     }
 
+    public void StoreProject(StaxWriter staxwriter) throws Exception {
+        XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+    // create XMLEventWriter
+
+        // create an EventFactory
+        XMLEventFactory eventFactory = XMLEventFactory.newInstance();
+        XMLEvent end = eventFactory.createDTD("\n");
+        // create and write Start Tag
+        StartDocument startDocument = eventFactory.createStartDocument();
+        staxwriter.writer.add(startDocument);
+
+        // create config open tag
+        StartElement configStartElement = eventFactory.createStartElement("",
+                "", "config");
+        staxwriter.writer.add(configStartElement);
+        staxwriter.writer.add(end);
+
+        zeichenpanel.STAXStore(staxwriter, eventFactory);
+        staxwriter.writer.add(eventFactory.createEndElement("", "", "config"));
+        staxwriter.writer.add(end);
+        staxwriter.writer.add(eventFactory.createEndDocument());
+
+        staxwriter.writer.close();
+
+    }
 }

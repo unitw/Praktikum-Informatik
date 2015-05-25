@@ -5,7 +5,17 @@
  */
 package XML;
 
+import CommandClasses.CDrawReceiver;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.geom.Ellipse2D;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
@@ -17,31 +27,21 @@ import org.xml.sax.SAXException;
  */
 public class SaxReader implements ContentHandler {
 
-    static final String EDITOR = "Editor";
-    static final String CGSLABEL = "CGSLabel";
-    static final String CGSFORMATTEDTEXTFIELD = "CGSFormattedTextField";
-    static final String XPOS = "xPos";
-    static final String YPOS = "yPos";
-
-    static final String BREITE = "breite";
-    static final String HOEHE = "hoehe";
-    static final String CONFIG = "config";
-
-    public ArrayList<JComponent> elemente = new ArrayList<>();
+    public ArrayList<CDrawReceiver> elemente = new ArrayList<>();
     public String currentValue;
 
-    public JComponent jcomp;
+    public CDrawReceiver draw;
 
-    String ElementID;
-    String ElementClass;
-    String Text;
-    String Bezeichung;
-    String Direction;
-    int Fontsize;
     int xpos;
     int ypos;
     int breite;
     int hoehe;
+    Color color;
+
+    URL url = ClassLoader.getSystemClassLoader().getResource("Resources/smiley.jpg");
+
+    Rectangle rect = null;
+    Ellipse2D oval;
 
     // Aktuelle Zeichen die gelesen werden, werden in eine Zwischenvariable
     // gespeichert
@@ -56,26 +56,57 @@ public class SaxReader implements ContentHandler {
     public void startElement(String uri, String localName, String qName,
             org.xml.sax.Attributes atts) throws SAXException {
 
-        if (localName.equals(EDITOR)) {
-
-            jcomp = null;
+        if (localName.equals("Scribble")) {
 
         }
+        if (localName.equals("Rectangle")) {
+            GetAttr(atts);
+            draw = new CDrawReceiver(rect, color, "Rectangle");
+
+        }
+        if (localName.equals("Oval")) {
+            GetAttr(atts);
+            draw = new CDrawReceiver(oval, color, "Oval");
+
+        }
+
+        if (localName.equals("Smiley")) {
+            GetAttr(atts);
+            try {
+                Image img = ImageIO.read(url);
+                draw = new CDrawReceiver(img, xpos, ypos, "Smiley");
+            } catch (IOException ex) {
+                Logger.getLogger(SaxReader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
     }
 
     // Methode wird aufgerufen wenn der Parser zu einem End-Tag kommt
-
+    @Override
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
 
-        if ((localName.equals(CGSLABEL))) {
+        if ((localName.equals("Scribble"))) {
 
-            elemente.add(jcomp);
+            elemente.add(draw);
 
         }
-        if ((localName.equals(CGSFORMATTEDTEXTFIELD))) {
+        if ((localName.equals("Rectangle"))) {
 
-            elemente.add(jcomp);
+            elemente.add(draw);
+
+        }
+        if ((localName.equals("Oval"))) {
+
+            elemente.add(draw);
+
+        }
+        if ((localName.equals("Smiley"))) {
+
+            elemente.add(draw);
+
         }
 
     }
@@ -116,19 +147,17 @@ public class SaxReader implements ContentHandler {
             ypos = Integer.parseInt(atts.getValue("yPos"));
             breite = Integer.parseInt(atts.getValue("breite"));
             hoehe = Integer.parseInt(atts.getValue("hoehe"));
+
+            rect = new Rectangle(xpos, ypos, breite, hoehe);
+            oval = new Ellipse2D.Float(xpos, ypos, breite, hoehe);
+            int argb = Integer.parseInt(atts.getValue("Farbe"));
+
+            int r = (argb) & 0xFF;
+            int g = (argb >> 8) & 0xFF;
+            int b = (argb >> 16) & 0xFF;
+            int a = (argb >> 24) & 0xFF;
+            this.color=new Color(argb);
         }
-//        if (atts.getValue("xPosAbsolut") != null) {
-//            xpos = Integer.parseInt(atts.getValue("xPosAbsolut"));
-//            ypos = Integer.parseInt(atts.getValue("yPosAbsolut"));
-//            breite = Integer.parseInt(atts.getValue("breite"));
-//            hoehe = Integer.parseInt(atts.getValue("hoehe"));
-//            
-//            Text = atts.getValue("Beschritung");
-//            Fontsize = Integer.parseInt(atts.getValue("hoehe"));
-//            Bezeichung = atts.getValue("Bezeichung");
-//            Direction = atts.getValue("Direction");
-//        }
     }
 
-//   
 }
