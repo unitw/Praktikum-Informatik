@@ -72,7 +72,7 @@ public class Draw {
         });
         gui.setSize(950, 400);
         gui.setLocationRelativeTo(null);
-        gui.auswahlpanel.add(automal);
+        gui.zeichenoptionenpanel.add(automal);
 
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setVisible(true);

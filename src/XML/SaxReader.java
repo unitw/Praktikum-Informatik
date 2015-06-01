@@ -6,6 +6,7 @@
 package XML;
 
 import CommandClasses.CDrawReceiver;
+import Drawer.CDrawLine;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -28,6 +29,7 @@ import org.xml.sax.SAXException;
 public class SaxReader implements ContentHandler {
 
     public ArrayList<CDrawReceiver> elemente = new ArrayList<>();
+    ArrayList<CDrawLine> lines = new ArrayList();
     public String currentValue;
 
     public CDrawReceiver draw;
@@ -42,6 +44,7 @@ public class SaxReader implements ContentHandler {
 
     Rectangle rect = null;
     Ellipse2D oval;
+    String scribble;
 
     // Aktuelle Zeichen die gelesen werden, werden in eine Zwischenvariable
     // gespeichert
@@ -57,6 +60,8 @@ public class SaxReader implements ContentHandler {
             org.xml.sax.Attributes atts) throws SAXException {
 
         if (localName.equals("Scribble")) {
+            scribble = "scribble";
+            GetAttr(atts);
 
         }
         if (localName.equals("Rectangle")) {
@@ -90,6 +95,7 @@ public class SaxReader implements ContentHandler {
 
         if ((localName.equals("Scribble"))) {
 
+            draw = new CDrawReceiver(lines, color, "Scribble");
             elemente.add(draw);
 
         }
@@ -142,6 +148,39 @@ public class SaxReader implements ContentHandler {
 
     public void GetAttr(org.xml.sax.Attributes atts) {
 
+        if (scribble.equals("scribble")) {
+            String linespos;
+
+            linespos = (atts.getValue("Lines"));
+
+            int modulo = linespos.length() / 19;
+            int posanfang = 0;
+
+            for (int i = 1; i <= linespos.length() / 20; i++) {
+                String positionen;
+                if (i == 1) {
+                    positionen = linespos.substring(posanfang, 19 * 1);
+
+                } else {
+                    positionen = linespos.substring(posanfang, 20 * i);
+                }
+
+                int x;
+                if (i == 1) {
+                    x = Integer.parseInt(positionen.substring(1, 4));
+                } else {
+                    x = Integer.parseInt(positionen.substring(1, 4));
+                }
+                int y = Integer.parseInt(positionen.substring(6, 9));
+                int x1 = Integer.parseInt(positionen.substring(11, 14));
+                int y1 = Integer.parseInt(positionen.substring(16, 19));
+
+                lines.add(new CDrawLine(x, y, x1, y1));
+                posanfang += 20;
+                System.out.println(i);
+            }
+            System.out.println("gut");
+        }
         if (atts.getValue("xPos") != null) {
             xpos = Integer.parseInt(atts.getValue("xPos"));
             ypos = Integer.parseInt(atts.getValue("yPos"));
@@ -156,8 +195,7 @@ public class SaxReader implements ContentHandler {
             int g = (argb >> 8) & 0xFF;
             int b = (argb >> 16) & 0xFF;
             int a = (argb >> 24) & 0xFF;
-            this.color=new Color(argb);
+            this.color = new Color(argb);
         }
     }
-
 }

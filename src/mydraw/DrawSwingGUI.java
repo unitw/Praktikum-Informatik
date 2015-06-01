@@ -65,12 +65,16 @@ public class DrawSwingGUI extends JFrame {
     JButton buttonquit = new JButton("Quit");
     JButton buttonclear = new JButton("Clear");
     JPanel auswahlpanel = new JPanel();
+    JPanel zeichenoptionenpanel = new JPanel();
+    JPanel metaoptionen = new JPanel();
+
     ZeichenPanel zeichenpanel = new ZeichenPanel(400, 300);
+
     JButton save = new JButton("SaveAsImg");
     JButton undo = new JButton("Undo");
     JButton redo = new JButton("Redo");
     JButton xmlsave = new JButton("SaveAsXml");
-    JButton xmlopen = new JButton("Open");
+    JButton xmlopen = new JButton("OpenFromXml");
 
     public final void initGUI() {
 
@@ -182,24 +186,29 @@ public class DrawSwingGUI extends JFrame {
         fgcolor = Color.BLACK;
         this.setPreferredSize(new Dimension(500, 400));
         fgcolor = Color.black;
-        auswahlpanel.add(labelshape);
-        auswahlpanel.add(shape_chooser);
+        zeichenoptionenpanel.add(labelshape);
+        zeichenoptionenpanel.add(shape_chooser);
 
-        auswahlpanel.add(new JLabel("Foreground"));
-        auswahlpanel.add(Forground_color_chooser);
-        auswahlpanel.add(new JLabel("Background"));
-        auswahlpanel.add(Background_color_chooser);
-        auswahlpanel.add(buttonclear);
-        auswahlpanel.add(buttonquit);
-        auswahlpanel.add(save);
-        auswahlpanel.add(xmlsave);
-        auswahlpanel.add(xmlopen);
-        auswahlpanel.add(undo);
-        auswahlpanel.add(redo);
+        zeichenoptionenpanel.add(new JLabel("Foreground"));
+        zeichenoptionenpanel.add(Forground_color_chooser);
+        zeichenoptionenpanel.add(new JLabel("Background"));
+        zeichenoptionenpanel.add(Background_color_chooser);
+        zeichenoptionenpanel.add(buttonclear);
+        metaoptionen.add(buttonquit);
+        metaoptionen.add(save);
+        metaoptionen.add(xmlsave);
+        metaoptionen.add(xmlopen);
+        zeichenoptionenpanel.add(undo);
+        zeichenoptionenpanel.add(redo);
         zeichenpanel.setBackground(Color.white);
-        this.add(auswahlpanel, BorderLayout.NORTH);
-        this.add(zeichenpanel, BorderLayout.SOUTH);
 
+//        auswahlpanel.setLayout(new BorderLayout());
+//        auswahlpanel.add(metaoptionen, BorderLayout.NORTH);
+//        auswahlpanel.add(zeichenoptionenpanel, BorderLayout.SOUTH);
+
+        this.add(zeichenoptionenpanel, BorderLayout.NORTH);
+        this.add(zeichenpanel, BorderLayout.CENTER);
+        this.add(metaoptionen, BorderLayout.SOUTH);
         undo.addActionListener(action);
         redo.addActionListener(action1);
 
@@ -316,11 +325,11 @@ public class DrawSwingGUI extends JFrame {
     }
 
     public JPanel getAuswahlpanel() {
-        return auswahlpanel;
+        return zeichenoptionenpanel;
     }
 
     public void setAuswahlpanel(JPanel auswahlpanel) {
-        this.auswahlpanel = auswahlpanel;
+        this.zeichenoptionenpanel = auswahlpanel;
     }
 
     public ZeichenPanel getZeichenpanel() {

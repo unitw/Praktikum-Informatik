@@ -262,7 +262,7 @@ public class StaxWriter {
     
     
     public void CreateMultiAttributeNode10(XMLEventWriter eventWriter, String CGSElementname, String name1, String value1, String name2, String value2, String name3, String value3, String name4, String value4,
-            String name5, String value5, String name6, String value6, String name7, String value7, String name8, String value8, String name9, String value9,String name10, String value10, int tabcnt) throws XMLStreamException {
+            String name5, String value5, String name6, String value6,  int tabcnt) throws XMLStreamException {
 
         XMLEventFactory eventFactory = XMLEventFactory.newInstance();
         XMLEvent zeilenumbruch = eventFactory.createDTD("\n");
@@ -302,12 +302,12 @@ public class StaxWriter {
         eventWriter.add(eventFactory.createAttribute(name4, value4));
         eventWriter.add(eventFactory.createAttribute(name5, value5));
         eventWriter.add(eventFactory.createAttribute(name6, value6));
-        eventWriter.add(eventFactory.createAttribute(name7, value7));
-        eventWriter.add(eventFactory.createAttribute(name8, value8));
-        if ((name9 != null && value9 != null)&&(name10 != null && value10 != null)) {
-            eventWriter.add(eventFactory.createAttribute(name9, value9));
-             eventWriter.add(eventFactory.createAttribute(name10, value10));
-        }
+//        eventWriter.add(eventFactory.createAttribute(name7, value7));
+//        eventWriter.add(eventFactory.createAttribute(name8, value8));
+//        if ((name9 != null && value9 != null)&&(name10 != null && value10 != null)) {
+//            eventWriter.add(eventFactory.createAttribute(name9, value9));
+//             eventWriter.add(eventFactory.createAttribute(name10, value10));
+//        }
         EndElement eElement = eventFactory.createEndElement("", "", CGSElementname);
         eventWriter.add(eElement);
         eventWriter.add(zeilenumbruch);

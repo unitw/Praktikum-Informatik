@@ -24,7 +24,7 @@ import javax.xml.stream.XMLStreamException;
  *
  * @author 3flim
  */
-public class CDrawReceiver implements Drawer,StaxStore {
+public class CDrawReceiver implements Drawer, StaxStore {
 
     String Identifier;
     Rectangle rect = null;
@@ -53,13 +53,14 @@ public class CDrawReceiver implements Drawer,StaxStore {
 
     private boolean paintable;
 
-    public Rectangle getrect(){
+    public Rectangle getrect() {
         return rect;
     }
-    
-    public ArrayList getlines(){
+
+    public ArrayList getlines() {
         return lines;
     }
+
     public boolean isPaintable() {
         return paintable;
     }
@@ -69,12 +70,11 @@ public class CDrawReceiver implements Drawer,StaxStore {
     }
 
     public CDrawReceiver(Rectangle rect, Color c, String s) {
-       this.x=rect.x;
-       this.y=rect.y;
-       this.w=rect.width;
-       this.h=rect.height;
-        
-        
+        this.x = rect.x;
+        this.y = rect.y;
+        this.w = rect.width;
+        this.h = rect.height;
+
         this.rect = rect;
         this.c = c;
         this.Identifier = s;
@@ -87,12 +87,12 @@ public class CDrawReceiver implements Drawer,StaxStore {
     }
 
     public CDrawReceiver(Ellipse2D oval, Color c, String s) {
-        
-        this.x=(int)oval.getX();
-       this.y=(int)oval.getY();
-       this.w=(int)oval.getWidth();
-       this.h=(int)oval.getHeight();
-        
+
+        this.x = (int) oval.getX();
+        this.y = (int) oval.getY();
+        this.w = (int) oval.getWidth();
+        this.h = (int) oval.getHeight();
+
         this.oval = oval;
         this.c = c;
         this.Identifier = s;
@@ -102,8 +102,8 @@ public class CDrawReceiver implements Drawer,StaxStore {
         this.img = img;
         this.x = x;
         this.y = y;
-        this.w=img.getWidth(null);
-        this.h=img.getHeight(null);
+        this.w = img.getWidth(null);
+        this.h = img.getHeight(null);
         this.Identifier = s;
     }
 
@@ -112,7 +112,7 @@ public class CDrawReceiver implements Drawer,StaxStore {
 
         switch (Identifier) {
             case "Rectangle":
-               
+
                 g.setColor(c);
                 g.drawRect(rect.x, rect.y, rect.width, rect.height);
 
@@ -123,9 +123,7 @@ public class CDrawReceiver implements Drawer,StaxStore {
 
                 break;
             case "Scribble":
-              
-                
-                
+
                 g.setColor(c);
                 for (CDrawLine line : lines) {
                     g.drawLine(line.getX(), line.getY(), line.getXakt(), line.getYakt());
@@ -139,10 +137,7 @@ public class CDrawReceiver implements Drawer,StaxStore {
 
     @Override
     public void STAXStore(StaxWriter staxwriter, XMLEventFactory eventFactory) {
-   
-   
 
-        
         Integer xpos = x;
 
         Integer ypos = y;
@@ -151,57 +146,74 @@ public class CDrawReceiver implements Drawer,StaxStore {
 
         Integer hoehe = this.h;
 
-        try {
-            staxwriter.CreateMultiAttributeNode8(staxwriter.writer, Identifier, "xPos", xpos.toString(), "yPos", ypos.toString(), "breite", breite.toString(), "hoehe", hoehe.toString(),"Farbe",c.getRGB()+"", 1);
-        } catch (XMLStreamException ex) {
-            Logger.getLogger(CDrawReceiver.class.getName()).log(Level.SEVERE, null, ex);
+        String linespos = null;
+        if (Identifier.equals("Scribble")) {
+           
+            
+            
+            for(CDrawLine lin:lines){
+               linespos= lines.toString();
+            }
+            
+            try {        
+                staxwriter.CreateMultiAttributeNode10(staxwriter.writer, Identifier, "xPos", xpos.toString(), "yPos", ypos.toString(), "breite", breite.toString(), "hoehe", hoehe.toString(), "Farbe", c.getRGB() + "","Lines",linespos, 1);
+            } catch (XMLStreamException ex) {
+                Logger.getLogger(CDrawReceiver.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+        } else {
+            try {
+                staxwriter.CreateMultiAttributeNode8(staxwriter.writer, Identifier, "xPos", xpos.toString(), "yPos", ypos.toString(), "breite", breite.toString(), "hoehe", hoehe.toString(), "Farbe", c.getRGB() + "", 1);
+            } catch (XMLStreamException ex) {
+                Logger.getLogger(CDrawReceiver.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    
-    
+
     }
 
     @Override
     public int getxPos() {
-    
-    return this.getX();
+
+        return this.getX();
     }
 
     @Override
     public void setxPos(String s) {
-  
-        this.x=Integer.parseInt(s);
-    
+
+        this.x = Integer.parseInt(s);
+
     }
 
     @Override
     public int getyPos() {
-       return this.y;
+        return this.y;
     }
 
     @Override
     public void setyPos(String s) {
-     this.y=Integer.parseInt(s);
+        this.y = Integer.parseInt(s);
     }
 
     @Override
     public int getbreite() {
-   return this.w;
+        return this.w;
     }
 
     @Override
     public void setbreite(String s) {
-    this.w=Integer.parseInt(s);
+        this.w = Integer.parseInt(s);
     }
 
     @Override
     public int gethoehe() {
-    return this.h;
+        return this.h;
     }
 
     @Override
     public void sethoehe(String s) {
-   
-    this.h= Integer.parseInt(s);
+
+        this.h = Integer.parseInt(s);
     }
 
     @Override
@@ -211,7 +223,7 @@ public class CDrawReceiver implements Drawer,StaxStore {
 
     @Override
     public void setIdentifier(String s) {
-       this.Identifier=s;
+        this.Identifier = s;
     }
 
 }

@@ -55,4 +55,9 @@ public class CDrawLine {
         this.yakt = yakt;
     }
 
+    @Override
+    public String toString() {
+        return x + y + xakt + yakt + "";
+    }
+
 }
