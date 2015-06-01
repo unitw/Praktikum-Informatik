@@ -97,10 +97,13 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
     }
 
     public void clear() {
-        this.setBackground(color.white);
+       
 
-        commmandList = new ArrayList();
+        for (CDrawReceiver c : commmandList) {
+            getCommmandList().remove(c);
 
+            undo.push(c);
+        }
         this.repaint();
 
     }
@@ -119,7 +122,6 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
 
     public void clearImage() {
         Graphics gbg = image.createGraphics();
-        commmandList = new ArrayList();
         gbg.setColor(color.white);
         gbg.fillRect(0, 0, 584, 300);
     }

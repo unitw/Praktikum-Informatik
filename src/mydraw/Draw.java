@@ -41,6 +41,11 @@ import javax.swing.SwingUtilities;
  * @author 3flim
  */
 public class Draw {
+    
+    
+    public static void main(String[] args) {
+         Draw draw= new Draw();
+     }
 
     DrawSwingGUI gui;
 

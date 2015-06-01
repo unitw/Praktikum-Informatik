@@ -237,7 +237,7 @@ public class DrawSwingGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
-                DrawSwingGUI.this.repaint();
+               
 
                 zeichenpanel.clearImage();
                 zeichenpanel.clear();
