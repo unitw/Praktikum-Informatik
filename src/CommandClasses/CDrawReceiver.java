@@ -163,6 +163,12 @@ public class CDrawReceiver implements Drawer, StaxStore {
             
             
         } else {
+           
+            if(c==null){
+                c=Color.white;
+                
+            }
+            
             try {
                 staxwriter.CreateMultiAttributeNode8(staxwriter.writer, Identifier, "xPos", xpos.toString(), "yPos", ypos.toString(), "breite", breite.toString(), "hoehe", hoehe.toString(), "Farbe", c.getRGB() + "", 1);
             } catch (XMLStreamException ex) {

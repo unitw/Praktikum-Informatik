@@ -39,7 +39,7 @@ import javax.xml.stream.events.XMLEvent;
  *
  * @author 3flim
  */
-public class ZeichenPanel extends JPanel implements KeyListener, StaxStore  {
+public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
 
     private int w;
     private int h;
@@ -98,10 +98,9 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore  {
 
     public void clear() {
         this.setBackground(color.white);
-        
-       commmandList= new ArrayList();
-        
-        
+
+        commmandList = new ArrayList();
+
         this.repaint();
 
     }
@@ -120,6 +119,7 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore  {
 
     public void clearImage() {
         Graphics gbg = image.createGraphics();
+        commmandList = new ArrayList();
         gbg.setColor(color.white);
         gbg.fillRect(0, 0, 584, 300);
     }
@@ -180,17 +180,15 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore  {
 
     public void Undo() {
 
-        
-        
-         if(getCommmandList().isEmpty()){
-             try {
+        if (getCommmandList().isEmpty()) {
+            try {
                 throw new DrawListException();
             } catch (DrawListException ex) {
-               System.err.println("Keine Elemente mehr da");
-               return;
+                System.err.println("Keine Elemente mehr da");
+                return;
             }
         }
-        
+
         CDrawReceiver drawre = (CDrawReceiver) getCommmandList().get(getCommmandList().size() - 1);
 
         getCommmandList().remove(drawre);
@@ -207,12 +205,12 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore  {
 
 //            try {
 //               
-        if(undo.empty()){
-             try {
+        if (undo.empty()) {
+            try {
                 throw new DrawListException();
             } catch (DrawListException ex) {
-               System.err.println("Stack leer");
-               return;
+                System.err.println("Stack leer");
+                return;
             }
         }
         drawre = undo.pop();
@@ -248,20 +246,16 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore  {
 
     }
 
-    
-    
-    
-     @Override
+    @Override
     public void STAXStore(StaxWriter staxwriter, XMLEventFactory eventFactory) {
         try {
             StartElement sElement = eventFactory.createStartElement("", "", "Editor");
 
             staxwriter.writer.add(sElement);
 
-            for(CDrawReceiver dr: commmandList){
+            commmandList.stream().forEach((dr) -> {
                 dr.STAXStore(staxwriter, eventFactory);
-                
-            }
+            });
             EndElement eElement = eventFactory.createEndElement("", "", "Editor");
             XMLEvent end = eventFactory.createDTD("\n");
 
@@ -274,26 +268,24 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore  {
 
     }
 
-   
-
     @Override
     public int getxPos() {
-     return this.getX();
+        return this.getX();
     }
 
     @Override
     public void setxPos(String s) {
-    
+
     }
 
     @Override
     public int getyPos() {
-    return this.getY();
+        return this.getY();
     }
 
     @Override
     public void setyPos(String s) {
-        
+
     }
 
     @Override
@@ -307,7 +299,7 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore  {
 
     @Override
     public int gethoehe() {
-       return this.getHeight();
+        return this.getHeight();
     }
 
     @Override

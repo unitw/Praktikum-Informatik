@@ -147,40 +147,40 @@ public class SaxReader implements ContentHandler {
 //</editor-fold>
 
     public void GetAttr(org.xml.sax.Attributes atts) {
-
-        if (scribble.equals("scribble")) {
-            String linespos;
-
-            linespos = (atts.getValue("Lines"));
-
-            int modulo = linespos.length() / 19;
-            int posanfang = 0;
-
-            for (int i = 1; i <= linespos.length() / 20; i++) {
-                String positionen;
-                if (i == 1) {
-                    positionen = linespos.substring(posanfang, 19 * 1);
-
-                } else {
-                    positionen = linespos.substring(posanfang, 20 * i);
-                }
-
-                int x;
-                if (i == 1) {
-                    x = Integer.parseInt(positionen.substring(1, 4));
-                } else {
-                    x = Integer.parseInt(positionen.substring(1, 4));
-                }
-                int y = Integer.parseInt(positionen.substring(6, 9));
-                int x1 = Integer.parseInt(positionen.substring(11, 14));
-                int y1 = Integer.parseInt(positionen.substring(16, 19));
-
-                lines.add(new CDrawLine(x, y, x1, y1));
-                posanfang += 20;
-                System.out.println(i);
-            }
-            System.out.println("gut");
-        }
+//
+//        if (scribble.equals("scribble")) {
+//            String linespos;
+//
+//            linespos = (atts.getValue("Lines"));
+//
+//            int modulo = linespos.length() / 19;
+//            int posanfang = 0;
+//
+//            for (int i = 1; i <= linespos.length() / 20; i++) {
+//                String positionen;
+//                if (i == 1) {
+//                    positionen = linespos.substring(posanfang, 19 * 1);
+//
+//                } else {
+//                    positionen = linespos.substring(posanfang, 20 * i);
+//                }
+//
+//                int x;
+//                if (i == 1) {
+//                    x = Integer.parseInt(positionen.substring(1, 4));
+//                } else {
+//                    x = Integer.parseInt(positionen.substring(1, 4));
+//                }
+//                int y = Integer.parseInt(positionen.substring(6, 9));
+//                int x1 = Integer.parseInt(positionen.substring(11, 14));
+//                int y1 = Integer.parseInt(positionen.substring(16, 19));
+//
+//                lines.add(new CDrawLine(x, y, x1, y1));
+//                posanfang += 20;
+//                System.out.println(i);
+//            }
+//            System.out.println("gut");
+//        }
         if (atts.getValue("xPos") != null) {
             xpos = Integer.parseInt(atts.getValue("xPos"));
             ypos = Integer.parseInt(atts.getValue("yPos"));
