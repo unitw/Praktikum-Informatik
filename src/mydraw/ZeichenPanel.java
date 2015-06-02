@@ -97,14 +97,22 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
     }
 
     public void clear() {
-       
 
-        for (CDrawReceiver c : commmandList) {
-            getCommmandList().remove(c);
+        int i =commmandList.size()-1;
 
-            undo.push(c);
+        CDrawReceiver draw;
+
+        while (!commmandList.isEmpty()) {
+            draw = this.commmandList.get(i);
+
+            commmandList.remove(draw);
+
+            undo.push(draw);
+
+            i--;
         }
-        this.repaint();
+
+        repaint();
 
     }
 
@@ -176,6 +184,7 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
     @Override
     public void repaint() {
         super.repaint();
+
     }
 
     Stack<CDrawReceiver> undo = new Stack();
@@ -265,7 +274,8 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
             staxwriter.writer.add(end);
 
         } catch (XMLStreamException ex) {
-            Logger.getLogger(ZeichenPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ZeichenPanel.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
