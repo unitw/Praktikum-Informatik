@@ -114,9 +114,9 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
     }
 
     public void setImageBackground(Color c) {
-        Graphics ig = image.getGraphics();
-        ig.setColor(c);
-        ig.fillRect(0, 0, 584, 300);
+//        Graphics ig = image.getGraphics();
+//        ig.setColor(c);
+//        ig.fillRect(0, 0, 584, 300);
 
     }
 
