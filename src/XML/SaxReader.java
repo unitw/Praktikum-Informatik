@@ -29,7 +29,8 @@ import org.xml.sax.SAXException;
 public class SaxReader implements ContentHandler {
 
     public ArrayList<CDrawReceiver> elemente = new ArrayList<>();
-    ArrayList<CDrawLine> lines = new ArrayList();
+    ArrayList<CDrawLine> linestri = new ArrayList();
+    ArrayList<CDrawLine> linesscri = new ArrayList();
     public String currentValue;
 
     public CDrawReceiver draw;
@@ -62,14 +63,17 @@ public class SaxReader implements ContentHandler {
         if (localName.equals("Scribble")) {
             scribble = "scribble";
             GetAttr(atts);
-
+            draw = new CDrawReceiver(linesscri, color, "Scribble");
         }
         if (localName.equals("Rectangle")) {
+
+            scribble = "";
             GetAttr(atts);
             draw = new CDrawReceiver(rect, color, "Rectangle");
 
         }
         if (localName.equals("Oval")) {
+            scribble = "";
             GetAttr(atts);
             draw = new CDrawReceiver(oval, color, "Oval");
 
@@ -78,10 +82,11 @@ public class SaxReader implements ContentHandler {
         if (localName.equals("Triangle")) {
             scribble = "triangle";
             GetAttr(atts);
-            draw = new CDrawReceiver(lines, color, "Triangle");
+            draw = new CDrawReceiver(linestri, color, "Triangle");
         }
 
         if (localName.equals("Smiley")) {
+            scribble = "";
             GetAttr(atts);
             try {
                 Image img = ImageIO.read(url);
@@ -100,10 +105,12 @@ public class SaxReader implements ContentHandler {
             throws SAXException {
 
         if ((localName.equals("Scribble"))) {
-
-            draw = new CDrawReceiver(lines, color, "Scribble");
             elemente.add(draw);
 
+        }
+        if (localName.equals("Triangle")) {
+
+            elemente.add(draw);
         }
         if ((localName.equals("Rectangle"))) {
 
@@ -153,59 +160,51 @@ public class SaxReader implements ContentHandler {
 //</editor-fold>
 
     public void GetAttr(org.xml.sax.Attributes atts) {
-//
-//        if (scribble.equals("scribble")) {
-//            String linespos;
-//
-//            linespos = (atts.getValue("Lines"));
-//
-//            int modulo = linespos.length() / 19;
-//            int posanfang = 0;
-//
-//            for (int i = 1; i <= linespos.length() / 20; i++) {
-//                String positionen;
-//                if (i == 1) {
-//                    positionen = linespos.substring(posanfang, 19 * 1);
-//
-//                } else {
-//                    positionen = linespos.substring(posanfang, 20 * i);
-//                }
-//
-//                int x;
-//                if (i == 1) {
-//                    x = Integer.parseInt(positionen.substring(1, 4));
-//                } else {
-//                    x = Integer.parseInt(positionen.substring(1, 4));
-//                }
-//                int y = Integer.parseInt(positionen.substring(6, 9));
-//                int x1 = Integer.parseInt(positionen.substring(11, 14));
-//                int y1 = Integer.parseInt(positionen.substring(16, 19));
-//
-//                lines.add(new CDrawLine(x, y, x1, y1));
-//                posanfang += 20;
-//                System.out.println(i);
-//            }
-//            System.out.println("gut");
-//        }
 
-        if (scribble.equals("triangle")) {
-            String linepos ;
+        if (scribble.equals("scribble")) {
+            String linepos;
 
             linepos = (atts.getValue("Lines"));
 
-           String[] felder = linepos.split(",");
-           String text = "";
-           
-           
-           
-            for (int i = 0; i < felder.length/4; i++) {
-               int posanfang=0;
-               
+            String[] felder = linepos.split(",");
+            String text = "";
+
+            int posanfang = 0;
+
+            for (int i = 0; i < felder.length / 4; i++) {
+
                 int x = Integer.parseInt(felder[posanfang]);
-                int y = Integer.parseInt(felder[1+posanfang]);
-                int x1 = Integer.parseInt(felder[2+posanfang]);
-                int y1 = Integer.parseInt(felder[3+posanfang]);
-                posanfang+=4;
+                int y = Integer.parseInt(felder[1 + posanfang]);
+                int x1 = Integer.parseInt(felder[2 + posanfang]);
+                int y1 = Integer.parseInt(felder[3 + posanfang]);
+                linesscri.add(new CDrawLine(x, y, x1, y1));
+
+                posanfang += 4;
+
+            }
+
+        }
+
+        if (scribble.equals("triangle")) {
+            String linepos;
+
+            linepos = (atts.getValue("Lines"));
+
+            String[] felder = linepos.split(",");
+            String text = "";
+
+            int posanfang = 0;
+
+            for (int i = 0; i < felder.length / 4; i++) {
+
+                int x = Integer.parseInt(felder[posanfang]);
+                int y = Integer.parseInt(felder[1 + posanfang]);
+                int x1 = Integer.parseInt(felder[2 + posanfang]);
+                int y1 = Integer.parseInt(felder[3 + posanfang]);
+                linestri.add(new CDrawLine(x, y, x1, y1));
+
+                posanfang += 4;
+
             }
 
         }
