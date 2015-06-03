@@ -139,7 +139,7 @@ public class DrawTest {
         assertFalse("0".equals(result));
     }
 
-    /**
+    /**asdf
      * Test of setBgColor method, of class Draw.
      */
     @Test
