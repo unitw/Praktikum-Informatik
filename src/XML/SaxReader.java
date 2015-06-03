@@ -75,6 +75,12 @@ public class SaxReader implements ContentHandler {
 
         }
 
+        if(localName.equals("Triangle")){
+            scribble="triangle";
+            GetAttr(atts);
+            draw=new CDrawReceiver(lines, color, "Triangle");
+        }
+        
         if (localName.equals("Smiley")) {
             GetAttr(atts);
             try {
@@ -181,6 +187,10 @@ public class SaxReader implements ContentHandler {
 //            }
 //            System.out.println("gut");
 //        }
+        
+        
+       
+        
         if (atts.getValue("xPos") != null) {
             xpos = Integer.parseInt(atts.getValue("xPos"));
             ypos = Integer.parseInt(atts.getValue("yPos"));

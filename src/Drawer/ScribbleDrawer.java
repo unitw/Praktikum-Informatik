@@ -37,17 +37,11 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
     }
 
     public void mouseDragged(MouseEvent e) {
-        g = gui.getGraphics();
-        Graphics g1 = gui.getImage().getGraphics();
         //scribble Problem:
 
         int x = e.getX(), y = e.getY();
 
-        g.setColor(gui.color);
-        g1.setColor(gui.color);
-
-        g.setPaintMode();
-        g1.setPaintMode();
+       
 
         // g.drawLine(lastx, lasty, x, y);
         //     g1.drawLine(lastx, lasty, x, y);
@@ -71,8 +65,15 @@ public class ScribbleDrawer extends ShapeDrawer implements GeneralDrawer {
     @Override
     public void mouseReleased(MouseEvent e) {
 
-        CDrawReceiver drawable = new CDrawReceiver(lines, gui.color, "Scribble");
-        gui.getCommmandList().add(drawable);
+       
+        gui.getCommmandList().remove(drawable);
+      
+        
+        ArrayList<CDrawLine> lines1 = new ArrayList(lines);
+
+        
+        CDrawReceiver drawablefinal = new CDrawReceiver(lines1, gui.color, "Scribble");
+        gui.getCommmandList().add(drawablefinal);
         gui.repaint();
 
     }

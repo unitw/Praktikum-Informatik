@@ -129,6 +129,15 @@ public class CDrawReceiver implements Drawer, StaxStore {
                     g.drawLine(line.getX(), line.getY(), line.getXakt(), line.getYakt());
                 }
                 break;
+                case "Triangle":
+
+                g.setColor(c);
+                for (CDrawLine line : lines) {
+                    g.drawLine(line.getX(), line.getY(), line.getXakt(), line.getYakt());
+                }
+                
+                
+                break;
             case "Smiley":
                 g.drawImage(img, x, y, null);
         }
@@ -146,14 +155,14 @@ public class CDrawReceiver implements Drawer, StaxStore {
 
         Integer hoehe = this.h;
 
-        String linespos = null;
-        if (Identifier.equals("Scribble")) {
+        String linespos = "";
+        if (Identifier.equals("Scribble")||Identifier.equals("Triangle")) {
            
             
             
-            for(CDrawLine lin:lines){
-               linespos= lines.toString();
-            }
+           for(CDrawLine lin:lines){
+               linespos+= lin.toString();
+           }
             
             try {        
                 staxwriter.CreateMultiAttributeNode10(staxwriter.writer, Identifier, "xPos", xpos.toString(), "yPos", ypos.toString(), "breite", breite.toString(), "hoehe", hoehe.toString(), "Farbe", c.getRGB() + "","Lines",linespos, 1);

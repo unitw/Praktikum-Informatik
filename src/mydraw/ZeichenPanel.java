@@ -90,10 +90,7 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
         this.w = w;
         this.h = h;
         this.setPreferredSize(new Dimension(w, h));
-        image = new BufferedImage(584, 300, BufferedImage.TYPE_INT_ARGB);;
-        Graphics gbg = image.createGraphics();
-        gbg.setColor(color.white);
-        gbg.fillRect(0, 0, 584, 300);
+        
     }
 
     public void clear() {
@@ -129,9 +126,7 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
     }
 
     public void clearImage() {
-        Graphics gbg = image.createGraphics();
-        gbg.setColor(color.white);
-        gbg.fillRect(0, 0, 584, 300);
+     
     }
 
     public BufferedImage getImage() {
@@ -159,6 +154,12 @@ public class ZeichenPanel extends JPanel implements KeyListener, StaxStore {
 //        }
 //    }
     public void drawCommandListonImg() {
+        image = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);;
+        Graphics gbg = image.createGraphics();
+        gbg.setColor(this.getBackground());
+        gbg.fillRect(0, 0, this.getWidth(), this.getHeight());
+        
+        
         for (int i = 0; i < this.getCommmandList().size(); i++) {
             CDrawReceiver dr = (CDrawReceiver) this.getCommmandList().get(i);
             dr.draw(image.getGraphics());

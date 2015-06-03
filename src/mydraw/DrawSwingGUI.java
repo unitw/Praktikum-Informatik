@@ -38,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import static javax.swing.UIManager.put;
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLOutputFactory;
@@ -57,9 +58,9 @@ public class DrawSwingGUI extends JFrame {
 
     Color fgcolor;
     JComboBox shape_chooser = new JComboBox();
-    JComboBox Forground_color_chooser = new JComboBox();
+    public JComboBox Forground_color_chooser = new JComboBox();
 
-    JComboBox Background_color_chooser = new JComboBox();
+    public JComboBox Background_color_chooser = new JComboBox();
 
     JLabel labelshape = new JLabel("Shape");
     JButton buttonquit = new JButton("Quit");
@@ -78,6 +79,9 @@ public class DrawSwingGUI extends JFrame {
 
     public final void initGUI() {
 
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        
+        
         Action action = new AbstractAction() {
 
             @Override
@@ -205,7 +209,6 @@ public class DrawSwingGUI extends JFrame {
 //        auswahlpanel.setLayout(new BorderLayout());
 //        auswahlpanel.add(metaoptionen, BorderLayout.NORTH);
 //        auswahlpanel.add(zeichenoptionenpanel, BorderLayout.SOUTH);
-
         this.add(zeichenoptionenpanel, BorderLayout.NORTH);
         this.add(zeichenpanel, BorderLayout.CENTER);
         this.add(metaoptionen, BorderLayout.SOUTH);
@@ -236,8 +239,6 @@ public class DrawSwingGUI extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent ae) {
-
-               
 
                 zeichenpanel.clearImage();
                 zeichenpanel.clear();

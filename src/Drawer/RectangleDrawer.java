@@ -42,31 +42,24 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
     // and draw the resulting shape
     @Override
     public void mouseReleased(MouseEvent e) {
-        Graphics g = gui.getGraphics();
-        Graphics g1 = gui.getImage().getGraphics();
+      
 
         if (lastx != -1) {
             // first undraw a rubber rect
-            g.setXORMode(gui.color);
-            g.setColor(gui.getBackground());
-            doDraw(pressx, pressy, lastx, lasty, g);
+           
+            doDraw(pressx, pressy, lastx, lasty);
 
-            g1.setXORMode(gui.color);
-            g1.setColor(gui.getBackground());
-            doDraw(pressx, pressy, lastx, lasty, g1);
+          
+            doDraw(pressx, pressy, lastx, lasty);
 
             lastx = -1;
             lasty = -1;
         }
         // these commands finish the rubberband mode
-        g.setPaintMode();
-        g.setColor(gui.color);
-
-        g1.setPaintMode();
-        g1.setColor(gui.color);
+      
         // draw the finel rectangle
-        doDraw(pressx, pressy, e.getX(), e.getY(), g);
-        doDraw(pressx, pressy, e.getX(), e.getY(), g1);
+        doDraw(pressx, pressy, e.getX(), e.getY());
+        doDraw(pressx, pressy, e.getX(), e.getY());
         if (drawable != null) {
             gui.getCommmandList().remove(drawable);
            
@@ -81,27 +74,19 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
     // mouse released => temporarily set second corner of rectangle
     // draw the resulting shape in "rubber-band mode"
     public void mouseDragged(MouseEvent e) {
-        g = gui.getGraphics();
-        Graphics g1 = gui.getImage().getGraphics();
-
-        // these commands set the rubberband mode
-        g.setXORMode(gui.color);
-        g.setColor(gui.getBackground());
-
-        g1.setXORMode(gui.color);
-        g1.setColor(gui.getBackground());
+      
 
         if (lastx != -1) {
             // first undraw previous rubber rect
-            doDraw(pressx, pressy, lastx, lasty, g);
-            doDraw(pressx, pressy, lastx, lasty, g1);
+            doDraw(pressx, pressy, lastx, lasty);
+            doDraw(pressx, pressy, lastx, lasty);
 
         }
         lastx = e.getX();
         lasty = e.getY();
         // draw new rubber rect
-        doDraw(pressx, pressy, lastx, lasty, g);
-        doDraw(pressx, pressy, lastx, lasty, g1);
+        doDraw(pressx, pressy, lastx, lasty);
+        doDraw(pressx, pressy, lastx, lasty );
 
         if (drawable != null) {
 
@@ -120,8 +105,7 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
 
     }
 
-    @Override
-    public void doDraw(int x0, int y0, int x1, int y1, Graphics g) {
+    public void doDraw(int x0, int y0, int x1, int y1) {
         // calculate upperleft and width/height of rectangle
         int x = Math.min(x0, x1);
         int y = Math.min(y0, y1);
@@ -138,6 +122,11 @@ public class RectangleDrawer extends ShapeDrawer implements GeneralDrawer, Drawe
     public void draw(Graphics g) {
         //  g.drawRect(rect.x, rect.y, rect.width, rect.height);
 
+    }
+
+    @Override
+    public void doDraw(int x0, int y0, int x1, int y1, Graphics g) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

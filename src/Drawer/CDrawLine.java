@@ -57,7 +57,7 @@ public class CDrawLine {
 
     @Override
     public String toString() {
-        return x + y + xakt + yakt + "";
+        return "|"+x+"," + y +","+ xakt+"," + yakt + "|";
     }
 
 }

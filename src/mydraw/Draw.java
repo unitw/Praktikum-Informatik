@@ -5,12 +5,15 @@
  */
 package mydraw;
 
+import CommandClasses.CDrawReceiver;
+import Drawer.CDrawLine;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 
 import java.awt.Rectangle;
@@ -21,14 +24,17 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -41,11 +47,10 @@ import javax.swing.SwingUtilities;
  * @author 3flim
  */
 public class Draw {
-    
-    
+
     public static void main(String[] args) {
-         Draw draw= new Draw();
-     }
+        Draw draw = new Draw();
+    }
 
     DrawSwingGUI gui;
 
@@ -75,13 +80,12 @@ public class Draw {
 
             }
         });
-        gui.setSize(950, 400);
+        gui.setSize(1000, 600);
         gui.setLocationRelativeTo(null);
         gui.zeichenoptionenpanel.add(automal);
 
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setVisible(true);
-      
 
     }
 
@@ -123,6 +127,7 @@ public class Draw {
     public void setFGColor(String fgcolor) throws ColorException {
 
         gui.setColor(fgcolor);
+        gui.Forground_color_chooser.setSelectedItem(fgcolor);
 
     }
 
@@ -140,6 +145,9 @@ public class Draw {
 
             zpan.setBackground((Color) gui.getColorHashtable().get(new_Color));
             gui.getZeichenpanel().setImageBackground((Color) gui.getColorHashtable().get(new_Color));
+
+            gui.Background_color_chooser.setSelectedItem(new_Color);
+
         } catch (ColorException ex) {
 
             System.err.println("Color not supported");
@@ -230,15 +238,68 @@ public class Draw {
 
     public void autodraw() throws ColorException {
 
-        setFGColor("red");
-        setBgColor("green");
+        setBgColor("Blue");
         List<Point> points = new ArrayList<>();
         points.add(new Point(0, 0));
         points.add(new Point(100, 100));
         points.add(new Point(100, 200));
         points.add(new Point(300, 200));
 
-       
+        ArrayList<CDrawLine> lines1 = new ArrayList();
+        ArrayList<CDrawLine> lines2 = new ArrayList();
+        lines1.add(new CDrawLine(100, 100, 500, 400));
+
+        int x0 = 200;
+        int y0 = 300;
+        int w = 100;
+        int h = 50;
+
+        Point point2 = new Point(x0 + w, y0);
+
+        Point point3 = new Point(x0 + (w / 2), y0 - h);
+
+        CDrawLine l1 = new CDrawLine(x0, y0, point2.x, point2.y);
+        CDrawLine l2 = new CDrawLine(x0, y0, point3.x, point3.y);
+        CDrawLine l3 = new CDrawLine(point2.x, point2.y, point3.x, point3.y);
+
+        lines2.add(l1);
+        lines2.add(l2);
+        lines2.add(l3);
+
+        Rectangle rect1 = new Rectangle(10, 10, 20, 20);
+        Rectangle rect2 = new Rectangle(100, 100, 200, 50);
+
+        URL url = ClassLoader.getSystemClassLoader().getResource("Resources/smiley.jpg");
+
+        Image img = null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException ex) {
+            Logger.getLogger(Draw.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Ellipse2D oval = new Ellipse2D.Double(500, 100, 100, 150);
+
+        Color c1 = Color.BLACK;
+        Color c2 = Color.RED;
+        Color c3 = Color.GREEN;
+
+        CDrawReceiver drawablescribble = new CDrawReceiver(lines1, c1, "Scribble");
+        CDrawReceiver drawablesquare = new CDrawReceiver(rect1, c2, "Rectangle");
+        CDrawReceiver drawabletriangle = new CDrawReceiver(lines2, c3, "Scribble");
+        CDrawReceiver drawablerectangle = new CDrawReceiver(rect2, c2, "Rectangle");
+        CDrawReceiver drawableicon = new CDrawReceiver(img, 200, 300, "Smiley");
+        CDrawReceiver drawableoval = new CDrawReceiver(oval, c1, "Oval");
+
+        gui.getZeichenpanel().getCommmandList().add(drawablescribble);
+        gui.getZeichenpanel().getCommmandList().add(drawablesquare);
+        gui.getZeichenpanel().getCommmandList().add(drawabletriangle);
+        gui.getZeichenpanel().getCommmandList().add(drawablerectangle);
+        gui.getZeichenpanel().getCommmandList().add(drawableicon);
+        gui.getZeichenpanel().getCommmandList().add(drawableoval);
+
+        gui.getZeichenpanel().repaint();
+        
 //        drawOval(new Point(0, 5), new Point(100, 100));
 //        drawRectangle(new Point(200, 0), new Point(100, 100));
 //        drawPolyLine(points);
@@ -247,12 +308,6 @@ public class Draw {
     public void writeImage(String Filename) throws IOException {
 
 //        gui.zeichenpanel.saveImage(Filename, "png");
-    
     }
-    
-    
-    
-    
-    
-    
+
 }
